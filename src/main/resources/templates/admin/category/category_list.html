@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/commons/layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>admin</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <th:block th:if="${message}">
+        <div class="alert alert-success" role="alert" th:text="${message}">
+
+        </div>
+    </th:block>
+    <div class="card">
+        <div class="card-header">
+            List of category
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th>action</th>
+
+
+                </tr>
+                </thead>
+                <tbody>
+
+                <div th:each="category : ${categories}">
+
+                    <tr>
+                        <th scope="row"></th>
+                        <td th:text="${category.categoryName}"></td>
+
+                        <td>
+                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    th:data-target="${'#modal'+category.getCategoryId()}">
+                                <i class="fa fa-cogs" aria-hidden="true"></i>
+                            </button>
+                            |
+                            <a th:href="${'/admin/category/delete/' +category.getCategoryId()}"
+                               class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                        </td>
+                    </tr>
+                    <!-- Modal -->
+                    <div class="modal fade" th:id="${'modal'+category.getCategoryId()}" tabindex="-1" role="dialog"
+                         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Update Category</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form th:action="${'/admin/category/update/'+ category.getCategoryId()}" method="post">
+                                    <div class="modal-body">
+
+                                        <label for="exampleInputEmail1">Category name</label>
+                                        <input name="name" th:value="${category.categoryName}" required type="text"
+                                               class="form-control" id="exampleInputEmail1"
+                                               aria-describedby="cateHelp" placeholder="Category name">
+                                        <small id="cateHelp" class="form-text text-muted">Must be true</small>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                                        </button>
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+</div>
+
+</body>
+</html>

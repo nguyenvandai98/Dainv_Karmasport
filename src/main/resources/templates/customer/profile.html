@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{customer/commons/layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+
+
+</head>
+<body>
+<div layout:fragment="content" class="container" style="height: 800px;padding-top: 70px">
+
+
+    <div class="row">
+        <div th:replace="~{customer/commons/sidebarprofile ::sidebarprofile}"></div>
+        <div class="col-xl-9 col-lg-8 col-md-7">
+            <div class="profile" style="margin-left: 50px; width: 600px">
+                <p style="font-size: 30px">My profile</p>
+                <p>Make your account be better</p>
+                <hr>
+                <form th:action="@{/profile/update}" th:object="">
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Name:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="name" placeholder="Name">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="staticEmail" class="col-sm-2 col-form-label">Email:</label>
+                        <div class="col-sm-10">
+                            <input type="text" readonly class="form-control-plaintext" id="staticEmail"
+                                   value="email@example.com"><a href="#">change</a>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="staticPhone" class="col-sm-2 col-form-label">Phone:</label>
+                        <div class="col-sm-10">
+                            <input type="text" readonly class="form-control-plaintext" id="staticPhone"
+                                   value="0383552922"><a href="#">change</a>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Birth day:</label>
+                        <div class="col-sm-10">
+                            <input type="date" class="form-control" id="birth" placeholder="birth day">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Address:</label>
+                        <div class="col-sm-10">
+                            <textarea type="text" class="form-control" name="address" id="address"></textarea>
+                        </div>
+                    </div>
+                    <hr>
+
+                    <div class="form-group row">
+                        <button type="submit" class="primary-btn" style="border: none">Change profile</button>
+                    </div>
+
+                </form>
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

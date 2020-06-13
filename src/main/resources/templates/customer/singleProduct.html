@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{customer/commons/layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="product_image_area" layout:fragment="content">
+    <div class="container">
+        <div class="row s_product_inner">
+            <div class="col-lg-6">
+                <div class="s_Product_carousel">
+                    <div class="single-prd-item">
+                        <img class="img-fluid" th:src="${'/upload/'+product.getImage()}" alt="">
+                    </div>
+                    <div class="single-prd-item">
+                        <img class="img-fluid" th:src="${'/upload/'+product.getImage()}" alt="">
+                    </div>
+                    <div class="single-prd-item">
+                        <img class="img-fluid" th:src="${'/upload/'+product.getImage()}" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5 offset-lg-1">
+                <div class="s_product_text">
+                    <h3 th:text="${product.getProductName()}"></h3>
+                    <h2 th:text="${'$'+product.getPrice()}"></h2>
+                    <ul class="list">
+                        <li><a class="active" href="#"><span>Category</span> <span th:text="${product.getCategory().getCategoryName()}"></span></a></li>
+                        <li><a href="#"><span>Availibility</span><span th:text="${ product.isStatus() ? 'In stock':'Out stock'}"></span></a></li>
+                    </ul>
+                    <p th:text="${product.getDescription()}"></p>
+                    <div class="product_count">
+                        <label for="sst">Quantity:</label>
+                        <input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:"
+                               class="input-text qty">
+                        <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
+                                class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
+                        <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
+                                class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
+                    </div>
+                    <div class="card_area d-flex align-items-center">
+                        <a class="primary-btn" th:href="${'/addtocart/'+product.getProductID()}">Add to Cart</a>
+                        <a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a>
+                        <a class="icon_btn" href="#"><i class="lnr lnr lnr-heart"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="customer/commons/related-product :: related-product"></div>
+</div>
+</body>
+</html>

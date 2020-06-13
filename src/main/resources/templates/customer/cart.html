@@ -1,0 +1,134 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{customer/commons/layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <!--================Cart Area =================-->
+    <section class="cart_area">
+        <div class="container">
+            <div class="cart_inner">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Product</th>
+                            <th scope="col">Price</th>
+                            <th scope="col" style="text-align: center">Quantity</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Delete</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- single cart detail-->
+                        <tr th:each="cart : ${carts}">
+                            <form th:action="${'/cart/update/'+ cart.getId()}" method="post">
+                            <td>
+                                <div class="media">
+                                    <div class="d-flex">
+                                        <img th:src="${'/upload/'+ cart.getProduct().getImage()}" alt="" width="100px"
+                                             height="100px">
+                                    </div>
+                                    <div class="media-body">
+                                        <p th:text="${cart.getProduct().getProductName()}"></p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <h5 th:text="${cart.getProduct().getPrice()+'$'}"></h5>
+                            </td>
+                            <td>
+                                <div class="product_count">
+<!--                                    <input type="number" name="quantity" id="quantity" maxlength="12"-->
+<!--                                           th:value="${cart.getQuantity()}" title="Quantity:"-->
+<!--                                           class="input-text qty" max="12" min="1">-->
+<!--                                    <button type="submit" class="btn btn-light"><i class="fa fa-refresh" aria-hidden="true"></i></button>-->
+
+                                    <div class="input-group">
+                                        <input type="number" class="input-text qty" name="quantity" id="quantity" th:value="${cart.getQuantity()}" max="12" min="1" >
+                                        <div class="input-group-append">
+                                            <button class="btn btn-light" type="submit"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </td>
+                            <td>
+                                <h5 th:text="${(cart.getProduct().getPrice() * cart.getQuantity())+'$'}"></h5>
+                            </td>
+                            <td>
+                                <a th:href="${'/cart/delete/'+ cart.getId()}" class="btn btn-light"><i class="fa fa-times" aria-hidden="true"></i></a>
+                            </td>
+                            </form>
+                        </tr>
+                        <!-- end single cart detail-->
+
+
+                        <tr class="bottom_button">
+                            <td>
+
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            <td></td>
+                            <td>
+                                <div class="cupon_text d-flex align-items-center">
+
+
+                                    <a class="primary-btn" href="/home" style="margin-left: 270px ">Continue
+                                        Shopping</a>
+
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td></td>
+                            <td>
+                                <h5>Subtotal</h5>
+                            </td>
+                            <td>
+                                <h5 style="color: darkred" th:text="${'$'+ totalmoney}"></h5>
+                            </td>
+                        </tr>
+
+                        <tr class="out_button_area">
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td></td>
+                            <td>
+                                <div class="checkout_btn_inner d-flex align-items-center">
+
+                                    <a class="primary-btn" href="/checkout" style="margin-left: 320px "> checkout</a>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+</html>
+
+</body>
+</html>

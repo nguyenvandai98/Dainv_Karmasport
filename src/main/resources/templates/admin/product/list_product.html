@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/commons/layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<main layout:fragment="content">
+    <th:block th:if="${message}">
+        <div th:class="${alert}" role="alert" th:text="${message}">
+        </div>
+    </th:block>
+
+    <div class="container-fluid">
+        <h1 class="mt-4">Dashboard</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+        <div class="row">
+
+        </div>
+        <div class="row">
+
+        </div>
+        <div class="card mb-4">
+            <div class="card-header"><i class="fas fa-table mr-1"></i>DataTable Example</div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th></th>
+
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <div th:each="prod : ${products}">
+                        <tr>
+
+                            <td th:text="${prod.getProductName()}"></td>
+                            <td th:text="${prod.getCategory().getCategoryName()}"></td>
+                            <td th:text="${prod.isStatus() == true? 'Instock':'Outstock'}"></td>
+                            <td th:utext="${prod.getQuantity()}"></td>
+                            <td th:utext="${prod.getPrice()+'$'}"></td>
+                            <td>
+                                <a th:href="${'/admin/product/update/'+prod.getProductID()}" class="btn btn-primary"><i class="fa fa-cogs" aria-hidden="true"></i></a>
+                                <a th:href="${'/admin/product/delete/'+prod.getProductID()}" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                            </td>
+                        </tr>
+                        </div>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

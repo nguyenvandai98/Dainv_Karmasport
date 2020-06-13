@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/commons/layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>product</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <th:block th:if="${message}">
+        <div th:class="${alert}" role="alert" th:text="${message}">
+        </div>
+    </th:block>
+
+    <div class="card">
+        <h5 class="card-header" th:text="${product.getProductID()==null ? 'Add product':'Update product'}"></h5>
+        <div class="card-body">
+            <form th:action="${product.getProductID()==null ? '/admin/product/create':'/admin/product/update'}" method="post" th:object="${product}"
+                  accept-charset="UTF-8"  enctype="multipart/form-data">
+                <div class="form-group" style="display: none">
+                    <label for="name">Product ID</label>
+                    <input type="text" th:field="*{productID}" class="form-control" id="productID" name="productID"
+                          readonly>
+                </div>
+                <div class="col-sm-8" style="float: left">
+                    <div class="form-group">
+                        <label for="name">Product name</label>
+                        <input type="text" th:field="*{productName}" class="form-control" id="name" name="name"
+                               placeholder="Product name">
+                    </div>
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select class="form-control" th:field="*{category.categoryId}">
+                                <option th:each="cate : ${categories}" th:value="${cate.getCategoryId()}"
+                                        th:text="${cate.categoryName}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="quantity">Quantity</label>
+                            <input type="number" th:field="*{quantity}" class="form-control" id="quantity"
+                                   name="quantity"
+                                   placeholder="Quantity" aria-describedby="amountHelp">
+                            <small id="amountHelp" class="form-text text-muted">Must be a number and be greater than
+                                0</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputprice">Price(vnd)</label>
+                            <input type="number" th:field="*{price}" class="form-control" id="exampleInputprice"
+                                   aria-describedby="emailHelp" placeholder="Price" min="0" required>
+                            <small id="priceHelp" class="form-text text-muted">Must be a number and be greater than
+                                0</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="status">Status</label>
+                            <select class="form-control" name="status" id="status" th:field="*{status}">
+                                <option th:value="${true}">In Stock</option>
+                                <option th:value="${false}">Out Stock</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Description</label>
+                            <textarea type="number" th:field="*{description}" class="form-control" id="exampleInputEmail1"
+                                      aria-describedby="emailHelp" placeholder="Price"></textarea>
+
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" th:text="${product.getProductID()==null ? 'Create':'Update'}"></button>
+
+                </div>
+                    <div class="col-sm-4" style="float: left">
+                        <div class="form-group">
+                                <img th:src="${'/upload/'+ product.getImage()}" id="selectImage" alt="image"
+                                     width="300px" height="300px">
+                            <input type="file" class="form-control" id="img" name="img"
+                                   aria-describedby="imagehelp" onchange="readURL(this)">
+                            <small id="imagehelp" class="form-text text-muted"></small>
+                        </div>
+                    </div>
+
+            </form>
+        </div>
+    </div>
+    <script>
+        function readURL(input) {
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#selectImage').attr('src', e.target.result).width(300).height(
+                        300);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+</div>
+
+
+</body>
+</html>
