@@ -8,6 +8,9 @@ import java.util.List;
 public interface BillService {
     List<Bill> billList();
     void save(Bill bill);
+    List<Bill> findAll();
+
+    Bill findById(Long id);
     List<Bill> findByCustomer(Long customerId);
     void saveBillAndBillDetail(Bill bill, List<Cart> carts);
 }

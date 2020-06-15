@@ -29,7 +29,7 @@ public class Product implements Serializable {
 
     private String image;
 
-    @Column(columnDefinition = "nvarchar(200)")
+    @Column(columnDefinition = "Text")
     private String description;
 
     @OneToMany(mappedBy = "product")

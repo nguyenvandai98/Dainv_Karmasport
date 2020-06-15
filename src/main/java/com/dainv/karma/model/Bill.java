@@ -26,7 +26,7 @@ public class Bill {
 
     private String phone;
 
-    @OneToMany(mappedBy = "bill",cascade= CascadeType.ALL)
+    @OneToMany(mappedBy = "bill",cascade= CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Bill_detail> bill_details;
 
     // 0- delivery, 1-received, 2- cancelled
@@ -94,6 +94,14 @@ public class Bill {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public List<Bill_detail> getBill_details() {
+        return bill_details;
+    }
+
+    public void setBill_details(List<Bill_detail> bill_details) {
+        this.bill_details = bill_details;
     }
 
     @Override

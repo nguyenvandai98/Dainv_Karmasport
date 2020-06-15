@@ -9,7 +9,7 @@ public class Bill_detail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "bill_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_BILL_BILLDETAIL"))
     private Bill bill;
 

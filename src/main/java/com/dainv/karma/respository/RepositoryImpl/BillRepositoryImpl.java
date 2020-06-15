@@ -20,14 +20,14 @@ public class BillRepositoryImpl implements BillRepository {
 
     @Override
     public List<Bill> findAll() {
-        String query = "select c from Cart c";
+        String query = "select c from Bill c";
         TypedQuery<Bill> customerTypedQuery = entityManager.createQuery(query, Bill.class);
         return customerTypedQuery.getResultList();
     }
 
     @Override
     public Bill findById(Long id) {
-        return null;
+        return entityManager.find(Bill.class, id);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class BillRepositoryImpl implements BillRepository {
 
     @Override
     public List<Bill> findByCustomer(Long customerId) {
-        String query = "select c from Cart c where c.customer.customerId = :customerId";
+        String query = "select c from Bill c where c.customer.customerId = :customerId";
         TypedQuery<Bill> customerTypedQuery = entityManager.createQuery(query, Bill.class);
         customerTypedQuery.setParameter("customerId",customerId);
         return customerTypedQuery.getResultList();

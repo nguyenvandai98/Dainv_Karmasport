@@ -10,8 +10,6 @@
 </head>
 <body>
 <div layout:fragment="content" class="container" style="height: 800px;padding-top: 70px">
-
-
     <div class="row">
         <div th:replace="~{customer/commons/sidebarprofile ::sidebarprofile}"></div>
         <div class="col-xl-9 col-lg-8 col-md-7">
@@ -19,11 +17,15 @@
                 <p style="font-size: 30px">My profile</p>
                 <p>Make your account be better</p>
                 <hr>
-                <form th:action="@{/profile/update}" th:object="">
+                <th:block th:if="${message}">
+                    <div th:class="${alert}" role="alert" th:text="${message}">
+                    </div>
+                </th:block>
+                <form th:action="@{/profile/update}" th:object="${customer}" method="post" >
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Name:</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="name" placeholder="Name">
+                            <input type="text" class="form-control" th:field="*{customerName}">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -45,13 +47,13 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Birth day:</label>
                         <div class="col-sm-10">
-                            <input type="date" class="form-control" id="birth" placeholder="birth day">
+                            <input type="date" class="form-control" id="date" name="date" placeholder="birth day" th:value="${#calendars.format(customer.getBirthday(), 'yyyy-MM-dd')}">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Address:</label>
                         <div class="col-sm-10">
-                            <textarea type="text" class="form-control" name="address" id="address"></textarea>
+                            <textarea type="text" class="form-control" name="address" id="address" th:field="*{address}"></textarea>
                         </div>
                     </div>
                     <hr>

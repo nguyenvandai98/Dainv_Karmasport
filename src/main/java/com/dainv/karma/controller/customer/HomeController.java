@@ -1,5 +1,6 @@
 package com.dainv.karma.controller.customer;
 
+import com.dainv.karma.model.Customer;
 import com.dainv.karma.sevice.IService.CategoryService;
 import com.dainv.karma.sevice.IService.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +9,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class HomeController {
+
     @Autowired
     private CategoryService categoryService;
     @Autowired
@@ -27,13 +31,11 @@ public class HomeController {
         return "customer/error";
      }
 
-
-
-    @GetMapping(value = "/profile/changepassword")
-    public String changepass() {
-        return "customer/changepass";
-    }
-
+     @GetMapping(value = "/logout")
+     public String logout(HttpSession session){
+        session.invalidate();
+        return "redirect:/home";
+     }
 
     @GetMapping(value = "/product/{id}")
     public String singleProduct(Model model, @PathVariable("id")Long productId){

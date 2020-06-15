@@ -66,13 +66,13 @@ public class LoginAndRegisterController {
             } else {
                 model.addAttribute("alert", "alert alert-danger");
                 model.addAttribute("message", "Login fail");
-                return "redirect:/login";
+                return "customer/login";
             }
 
         } else {
             model.addAttribute("alert", "alert alert-danger");
             model.addAttribute("message", "Login fail");
-            return "redirect:/login";
+            return "customer/login";
 
         }
 
