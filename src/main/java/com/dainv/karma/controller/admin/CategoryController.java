@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Optional;
+
 @Controller
 @RequestMapping(value = "admin/category/")
 public class CategoryController {
@@ -40,10 +42,9 @@ public class CategoryController {
 
     @PostMapping(value = "update/{id}")
     public ModelAndView update(@PathVariable("id")Long id, @RequestParam("name") String name) {
-        System.out.println(id);
-        System.out.println(name);
-        Category category = new Category(id, name);
-        System.out.println(category);
+
+        Category category =categoryService.findById(id).get();
+        category.setCategoryName(name);
         categoryService.save(category);
         ModelAndView modelAndView = new ModelAndView("/admin/category/category_list");
         modelAndView.addObject("message", "update category successfully!!! ");

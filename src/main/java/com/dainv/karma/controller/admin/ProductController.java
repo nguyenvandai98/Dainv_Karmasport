@@ -49,15 +49,13 @@ public class ProductController {
         if(!file.exists()){
             multipartFile.transferTo(file);
         }
-
-
         model.addAttribute("alert","alert alert-success");
         model.addAttribute("message","Create product successfully!");
     }catch (Exception e){
         e.printStackTrace();
 
-        model.addAttribute("alert","alert alert-success");
-        model.addAttribute("message","Create product successfully!");
+        model.addAttribute("alert","alert alert-danger");
+        model.addAttribute("message","Create product fail!");
     }
         return "admin/product/product_detail";
     }

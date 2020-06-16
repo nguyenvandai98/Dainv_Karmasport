@@ -10,7 +10,7 @@ import java.util.List;
 @Table(name = "product")
 public class Product implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long productID;
 
     @Column(columnDefinition = "nvarchar(200)")
