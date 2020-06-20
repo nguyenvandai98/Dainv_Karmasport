@@ -13,5 +13,8 @@ public interface CustomerService {
     void save(Customer model);
 
     void remove(Long id);
+
     Customer finByEmail(String email);
+
+    boolean checkLogin(String email,String password);
 }

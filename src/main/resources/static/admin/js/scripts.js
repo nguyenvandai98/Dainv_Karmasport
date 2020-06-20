@@ -20,4 +20,30 @@
         $("body").toggleClass("sb-sidenav-toggled");
     });
 })(jQuery);
+$(document).ready(function() {
+    $('#productForm').validate({
+        rules : {
+            productName : {
+                required : true,
+                minlength: 12,
+                maxLength:255
+            },
+            quantity : {
+                required : true,
+                digits : true
+            },
+            price : {
+                required: true,
+                digits: true
+            },
+            description : {
+                required: true,
+                maxLength: 300
+            }
+        },
+        messages : {
+        }
+    });
+});
+
 

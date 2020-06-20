@@ -21,7 +21,7 @@
                     <div th:class="${alert}" role="alert" th:text="${message}">
                     </div>
                 </th:block>
-                <form th:action="@{/profile/update}" th:object="${customer}" method="post" >
+                <form th:action="@{/profile/update}" th:object="${customer}" method="post" id="profileForm">
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Name:</label>
                         <div class="col-sm-10">

@@ -10,9 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -61,23 +61,28 @@ public class ProductController {
     }
 
     @GetMapping(value = "list")
-    public String List(Model model){
+    public String List(Model model, @ModelAttribute("alert")String alert, @ModelAttribute("message")String message){
         model.addAttribute("products", productService.findAll());
+        model.addAttribute("alert", alert);
+        model.addAttribute("message", message);
         return "admin/product/list_product";
     }
 
     @GetMapping(value = "update/{id}")
     public String Update(Model model,@PathVariable("id")Long id){
-        model.addAttribute("product",productService.findById(id));
-        return "admin/product/product_detail";
+        Product product = productService.findById(id);
+        if(product != null){
+            model.addAttribute("product",productService.findById(id));
+            return "admin/product/product_detail";
+        }else {
+            return "redirect:/404";
+        }
+
     }
     @PostMapping(value = "update")
-    public String Update(Model model, Product product, @RequestParam("img")MultipartFile multipartFile){
+    public String Update(Model model, Product product, @RequestParam("img")MultipartFile multipartFile,RedirectAttributes ra){
         try{
-            System.out.println(product.getProductID());
-
         String filename = multipartFile.getOriginalFilename();
-
         if(filename.length() ==0){
             Product product1 =productService.findById(product.getProductID());
             product.setImage(product1.getImage());
@@ -89,36 +94,34 @@ public class ProductController {
             product.setImage(filename);
         }
         productService.save(product);
-
-
-
-        model.addAttribute("alert","alert alert-success");
-        model.addAttribute("message","Update product successfully!");
+        ra.addAttribute("alert","alert alert-success");
+        ra.addAttribute("message","Update product successfully!");
     }catch (Exception e){
         e.printStackTrace();
 
-        model.addAttribute("alert","alert alert-danger");
-        model.addAttribute("message","update product fail!");
+        ra.addAttribute("alert","alert alert-danger");
+        ra.addAttribute("message","update product fail!");
     }
-        model.addAttribute("products", productService.findAll());
-        return "/admin/product/list_product";
+        ra.addAttribute("products", productService.findAll());
+        return "redirect:/admin/product/list";
     }
 
     @GetMapping(value = "delete/{id}")
-    public String delete(Model model, @PathVariable("id")Long id){
+    public String delete(Model model, @PathVariable("id")Long id, RedirectAttributes ra){
+
         try{
             productService.remove(id);
-            model.addAttribute("alert","alert alert-success");
-            model.addAttribute("message","delete product successfully!");
+            ra.addAttribute("alert","alert alert-success");
+            ra.addAttribute("message","delete product successfully!");
 
         }catch (Exception e){
             e.printStackTrace();
 
-            model.addAttribute("alert","alert alert-danger");
-            model.addAttribute("message","delete product fail!");
+            ra.addAttribute("alert","alert alert-danger");
+            ra.addAttribute("message","delete product fail!");
         }
-        model.addAttribute("products", productService.findAll());
-        return "/admin/product/list_product";
+
+        return "redirect:/admin/product/list";
     }
 
 }

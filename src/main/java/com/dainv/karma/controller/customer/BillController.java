@@ -1,11 +1,11 @@
 package com.dainv.karma.controller.customer;
 
 import com.dainv.karma.helper.UntilitiesHelper;
-import com.dainv.karma.model.Bill;
-import com.dainv.karma.model.Cart;
-import com.dainv.karma.model.Customer;
+import com.dainv.karma.model.*;
 import com.dainv.karma.sevice.IService.BillService;
 import com.dainv.karma.sevice.IService.CartService;
+import com.dainv.karma.sevice.IService.ProductService;
+import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +22,9 @@ import java.util.List;
 public class BillController {
     @Autowired
     private BillService billService;
+
+    @Autowired
+    private ProductService productService;
 
     @Autowired
     private CartService cartService;
@@ -84,6 +87,12 @@ public class BillController {
         }
         bill.setStatus(2);
         billService.save(bill);
+        List<Bill_detail> billDetailList = bill.getBill_details();
+        for (Bill_detail d: billDetailList) {
+            Product pro = d.getProduct();
+            pro.setQuantity(pro.getQuantity()+d.getQuantity());
+            productService.save(pro);
+        }
 
         return "redirect:/purchase";
     }

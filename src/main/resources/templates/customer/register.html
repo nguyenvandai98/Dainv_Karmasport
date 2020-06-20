@@ -25,32 +25,35 @@
                 <div class="col-lg-6">
                     <div class="login_form_inner">
                         <h3>Create an account</h3>
-                        <form class="row login_form" action="/register" method="post" id="contactForm" th:object="${customer}"
-                              novalidate="novalidate">
+                        <form class="row login_form" action="/register" method="post" id="registerForm" th:object="${customer}">
+                            <th:block th:if="${message}">
+                                <div th:class="${alert}" role="alert" th:text="${message}">
+                                </div>
+                            </th:block>
                             <div class="col-md-12 form-group">
                                 <input type="email" class="form-control" id="email" name="email" placeholder="Email"
-                                       th:field="*{email}"    onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'" required>
+                                       th:field="*{email}"  onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'" required>
                             </div>
                             <div class="col-md-12 form-group">
-                                <input type="text" class="form-control" placeholder="your name"
-                                       th:field="*{customerName}"    onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Name'">
+                                <input type="text" class="form-control" placeholder="your name"  maxlength="100"
+                                       th:field="*{customerName}"    onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Name'" required>
                             </div>
                             <div class="col-md-12 form-group">
-                                <input type="password" class="form-control"  placeholder="Password"
-                                       th:field="*{password}"    onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
+                                <input type="password" class="form-control"  placeholder="Password"  maxlength="50"
+                                       th:field="*{password}"    onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'" required>
                             </div>
                             <div class="col-md-12 form-group">
-                                <input type="password" class="form-control" id="repeatpass" name="repeatpass"
+                                <input type="password" class="form-control" id="repeatPassword" name="repeatPassword" maxlength="50"
                                        placeholder="Repeat password" onfocus="this.placeholder = ''"
-                                          onblur="this.placeholder = 'Repeat password'">
+                                          onblur="this.placeholder = 'Repeat password'" required>
                             </div>
                             <div class="col-md-12 form-group">
-                                <input type="text" class="form-control" id="phone" name="phone" placeholder="Phone"
-                                       th:field="*{phone}"      onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone'">
+                                <input type="text" class="form-control"  placeholder="Phone" maxlength="15"
+                                       th:field="*{phone}"      onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone'" required>
                             </div>
                             <div class="col-md-12 form-group" style="text-align: left">
                                 <label for="address" style="color: grey; margin-left: 14px">Address:</label>
-                                <textarea type="text" class="form-control" id="address" name="address">
+                                <textarea type="text" class="form-control" id="address" name="address" maxlength="255" required>
                                 </textarea>
                             </div>
                             <div class="col-md-12 form-group">
@@ -64,5 +67,9 @@
         </div>
     </section>
 </div>
+<script type="text/javascript">
+
+
+</script>
 </body>
 </html>

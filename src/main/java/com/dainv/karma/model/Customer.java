@@ -30,7 +30,7 @@ public class Customer {
     private List<Cart> carts;
 
     @OneToMany(mappedBy = "customer")
-    private List<Cart> bills;
+    private List<Bill> bills;
 
     public Long getCustomerId() {
         return customerId;
@@ -94,5 +94,13 @@ public class Customer {
 
     public void setCarts(List<Cart> carts) {
         this.carts = carts;
+    }
+
+    public List<Bill> getBills() {
+        return bills;
+    }
+
+    public void setBills(List<Bill> bills) {
+        this.bills = bills;
     }
 }

@@ -555,3 +555,130 @@ $(document).ready(function () {
 
 
 });
+$.validator.addMethod('phone', function (value, element) {
+    return this.optional(element) || /((09|03|07|08|05)+([0-9]{8})\b)/.test(value);
+}, "Please enter a valid phone number");
+
+$(document).ready(function() {
+    $('#registerForm').validate({
+        rules : {
+            customerName : {
+                required : true,
+                minlength : 10,
+                maxLength: 255
+            },
+
+            phone : {
+                required : true,
+                phone: true
+            },
+            email : {
+                required : true,
+                email : true,
+                maxLength: 255
+            },
+            password : {
+                required : true,
+                minlength : 8,
+                maxLength: 255
+            },
+            repeatPassword : {
+                required : true,
+                equalTo : "#password"
+            },
+            address : {
+                required : true,
+                minlength : 5,
+                maxLength: 255
+            },
+
+        },
+        messages : {
+
+            // name : {
+            //     required : "Your name is required",
+            //     minlength : "User name must be longer than 5 characters"
+            // },
+            //
+            // phone : {
+            //     required : "Your phone is required",
+            //     minlength : "Your phone is Invalid"
+            // },
+            // email : {
+            //     required : "Please fill this field",
+            //     email : "Email is Invalid"
+            //
+            // },
+            // password : {
+            //     required : 'Your password is required',
+            //     minlength : 'Password must be longer than 8 characters'
+            // },
+            // repeatPassword : {
+            //     required : 'Please, fill this field',
+            //     equalTo : 'confirm password is Invalid'
+            // },
+            // address : {
+            //     required : 'Please, fill this field',
+            //     minlength : 'Password must be longer than 5 characters',
+            // },
+
+        }
+    });
+
+});
+$(document).ready(function() {
+    $('#changePasswordForm').validate({
+        rules : {
+            oldPassword : {
+                required : true,
+            },
+            newPassword : {
+                required : true,
+                minlength: 8
+            },
+            confirm : {
+                required : true,
+                equalTo : "#newPassword"
+            },
+        },
+        messages : {
+        }
+    });
+});
+
+$(document).ready(function() {
+
+    $('#profileForm').validate({
+        rules : {
+            customerName : {
+                required : true,
+                minlength: 10
+            },
+            address : {
+                required : true,
+                minlength: 8
+            },
+
+        },
+        messages : {
+        }
+    });
+});
+$(document).ready(function() {
+    $('#formCheckOut').validate({
+        rules : {
+            phone : {
+                required : true,
+                phone: true
+            },
+            address : {
+                required : true,
+                minlength: 8
+            },
+
+        },
+        messages : {
+        }
+    });
+});
+

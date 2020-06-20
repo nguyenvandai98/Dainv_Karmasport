@@ -10,71 +10,85 @@
 </head>
 <body>
 
-<div layout:fragment="content" class="container" style="height: 800px;padding-top: 70px">
-    <div class="row" style="height: auto">
+<div layout:fragment="content" class="container" style="height: 900px;padding-top: 70px">
+    <div class="row">
         <div th:replace="~{customer/commons/sidebarprofile ::sidebarprofile}"></div>
-        <div class="col-xl-9 col-lg-8 col-md-7" >
-                <div class="container" style="height: 90px; background: #d4d4d4;">
-                    <h6 class="display-4"><i class="fa fa-shopping-bag" aria-hidden="true"></i>shopping history</h6>
-                </div>
+        <div class="col-xl-9 col-lg-8 col-md-7">
+            <div class="container" style="height: 90px; background: #d4d4d4;">
+                <h6 class="display-4"><i class="fa fa-shopping-bag" aria-hidden="true"></i>shopping history</h6>
+            </div>
+            <div style="height: 700px; overflow: scroll ">
+                <div class="card" style=" margin-top: 50px" th:each="bill : ${bills}">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm-3"
+                                 th:text="${'order date: '+ #calendars.format(bill.getOrderDate(), 'dd-MM-yyyy')}">
 
-            <div class="card" style=" margin-top: 50px" th:each="bill : ${bills}">
-                <div class="card-header">
-                    <div class="row">
-                        <div class="col-sm-3" th:text="${#calendars.format(bill.getOrderDate(), 'dd-MM-yyyy')}">
-
-                        </div>
-                        <div class="col-sm-7" th:text="${#calendars.format(bill.getReceivedDate(), 'dd-MM-yyyy')}">
-
-                        </div>
-                        <div class="col-sm-2" style="font-size: 20px" th:switch="${bill.getStatus()}">
-                            <span th:case="0" style="color: #0056b3"><i class="fa fa-truck" aria-hidden="true"></i>Delivery</span>
-                            <span th:case="1" style="color: green"><i class="fas fa-check-square" aria-hidden="true"></i>Received</span>
-                            <span th:case="2"style="color: red"><i class="far fa-window-close" aria-hidden="true"></i>Canceled</span>
+                            </div>
+                            <div class="col-sm-7">
+                                <span th:if="${bill.getReceivedDate() != null}"
+                                      th:text="${'reveiced date: '+#calendars.format(bill.getReceivedDate(), 'dd-MM-yyyy')}"></span>
+                            </div>
+                            <div class="col-sm-2" style="font-size: 20px" th:switch="${bill.getStatus()}">
+                                <span th:case="0" style="color: #0056b3"><i class="fa fa-truck" aria-hidden="true"></i>Delivery</span>
+                                <span th:case="1" style="color: green"><i class="fas fa-check-square"
+                                                                          aria-hidden="true"></i>Received</span>
+                                <span th:case="2" style="color: red"><i class="far fa-window-close"
+                                                                        aria-hidden="true"></i>Canceled</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item" th:each="detail: ${bill.getBill_details()}">
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <img th:src="${'/upload/'+detail.getProduct().getImage()}" width="120px" height="120px">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" th:each="detail: ${bill.getBill_details()}">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <img th:src="${'/upload/'+detail.getProduct().getImage()}" width="120px"
+                                         height="120px">
+                                </div>
+                                <div class="col-sm-8">
+                                    <p th:text="${detail.getProduct().getProductName()}"></p>
+                                    <p th:text="${detail.getQuantity()}"><span style="color: gray">quantity:</span></p>
+                                </div>
+                                <div class="col-sm-2" style="color: red"
+                                     th:text="${'$'+(detail.getQuantity()* detail.getPrice())}"></div>
                             </div>
-                            <div class="col-sm-8">
-                                <p th:text="${detail.getProduct().getProductName()}"></p>
-                                <p th:text="${detail.getQuantity()}"><span style="color: gray">quantity:</span></p>
-                            </div>
-                            <div class="col-sm-2" style="color: red" th:text="${'$'+(detail.getQuantity()* detail.getPrice())}"></div>
-                        </div>
-                    </li>
-                    <li class="list-group-item"><div class="row">
-                        <div class="col-sm-10">
-                           <span>Total Money:</span>
-                            <span style="font-size: 18px; color: red" th:text="${'$'+bill.getTotalMoney()}"></span>
-                        </div>
-                        <div class="col-sm-2">
-                            <button class="btn btn-outline-dark"data-toggle="modal" th:data-target="${'#Modal'+bill.getId()}" th:if="${bill.getStatus()==0}">
-                                cancel order</button>
-                        </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <span>Total Money:</span>
+                                    <span style="font-size: 18px; color: red"
+                                          th:text="${'$'+bill.getTotalMoney()}"></span>
+                                </div>
+                                <div class="col-sm-2">
+                                    <button class="btn btn-outline-dark" data-toggle="modal"
+                                            th:data-target="${'#Modal'+bill.getId()}" th:if="${bill.getStatus()==0}">
+                                        cancel order
+                                    </button>
+                                </div>
 
-                    </div></li>
+                            </div>
+                        </li>
 
-                </ul>
-                <div class="modal fade" th:id="${'Modal'+bill.getId()}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Cancel order</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                Are you sure you want to cancel the order
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <a  class="btn btn-primary" th:href="${'/purchase/bill/update/'+ bill.getId()}">Sure</a>
+                    </ul>
+                    <div class="modal fade" th:id="${'Modal'+bill.getId()}" tabindex="-1" role="dialog"
+                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Cancel order</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Are you sure you want to cancel the order
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <a class="btn btn-primary"
+                                       th:href="${'/purchase/bill/update/'+ bill.getId()}">Sure</a>
+                                </div>
                             </div>
                         </div>
                     </div>

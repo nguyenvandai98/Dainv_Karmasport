@@ -3,7 +3,7 @@ package com.dainv.karma.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "admin")
+@Table(name = "adminManagement")
 public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,11 +12,30 @@ public class Admin {
     @Column(columnDefinition = "nvarchar(255)")
     private String Name;
 
+    @Column(unique = true)
     private String Email;
 
     private String password;
 
+    private int role;
 
+    private boolean enable;
+
+    public boolean isEnable() {
+        return enable;
+    }
+
+    public void setEnable(boolean enable) {
+        this.enable = enable;
+    }
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
+    }
 
     public int getId() {
         return Id;
@@ -48,5 +67,16 @@ public class Admin {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "Admin{" +
+                "Id=" + Id +
+                ", Name='" + Name + '\'' +
+                ", Email='" + Email + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                '}';
     }
 }

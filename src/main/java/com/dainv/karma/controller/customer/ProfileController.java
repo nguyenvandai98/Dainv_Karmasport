@@ -34,7 +34,7 @@ public class ProfileController {
     }
 
     @PostMapping(value = "change/password")
-    public String changepass(Model model, @RequestParam("oldpassword")String oldpass,@RequestParam("newpassword")String newpass,HttpSession session) {
+    public String changepass(Model model, @RequestParam("oldPassword")String oldpass,@RequestParam("newPassword")String newpass,HttpSession session) {
         Customer cus = (Customer) session.getAttribute("customer");
         if(cus == null){
             return "redirect:/login";

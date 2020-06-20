@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/commons/layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<main layout:fragment="content">
+    <th:block th:if="${message}">
+        <div th:class="${alert}" role="alert" th:text="${message}">
+        </div>
+    </th:block>
+
+    <div class="container-fluid">
+        <h1 class="mt-4">ADMIN MANAGEMENT</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active"></li>
+        </ol>
+        <div class="row">
+
+        </div>
+        <div class="row">
+
+        </div>
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th></th>
+
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <div th:each="ad : ${admins}">
+                            <tr>
+
+                                <td th:text="${ad.getName()}"></td>
+                                <td th:text="${ad.getEmail()}"></td>
+                                <td th:if="${ad.isEnable()}">
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" th:data-target="${'#active'+ad.getId()}">
+                                        active
+                                    </button>
+                                </td>
+                                <td th:if="${ad.isEnable()== false}">
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" th:data-target="${'#disable'+ad.getId()}">
+                                       disable
+                                    </button>
+                                </td>
+
+
+                            </tr>
+
+
+
+                            <!-- Modal -->
+                            <div th:if="${ad.isEnable()}" class="modal fade" th:id="${'active'+ad.getId()}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModald">Modal title</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Are you sure you want to disable this account?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <a th:href="${'/admin/management/enable/'+ad.getId()}" class="btn btn-success">Yes</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div  th:if="${ad.isEnable()== false}" class="modal fade" th:id="${'disable'+ad.getId()}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Are you sure you want to active this account?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <a th:href="${'/admin/management/active/'+ad.getId()}" class="btn btn-success">Yes</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

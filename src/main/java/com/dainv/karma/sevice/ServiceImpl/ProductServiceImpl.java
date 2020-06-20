@@ -19,7 +19,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product findById(Long id) {
-        return productRepository.findById(id);
+        return productRepository.findById(id).get();
     }
 
     @Override
@@ -29,6 +29,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void remove(Long id) {
-        productRepository.remove(id);
+        productRepository.deleteById(id);
     }
 }
