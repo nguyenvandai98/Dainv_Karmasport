@@ -18,4 +18,6 @@ public interface AdminService {
 
     boolean checkLogin(String email,String password);
 
+    List<Admin> findALlByRole(int role);
+
 }

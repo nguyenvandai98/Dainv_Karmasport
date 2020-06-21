@@ -48,4 +48,9 @@ public class AdminServiceImpl implements AdminService {
         }
         return false;
     }
+
+    @Override
+    public List<Admin> findALlByRole(int role) {
+        return adminRepository.findAllByRole(role);
+    }
 }

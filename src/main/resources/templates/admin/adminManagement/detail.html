@@ -5,7 +5,7 @@
       layout:decorate="~{admin/commons/layout.html}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>ADMIN | Karma sport</title>
 </head>
 <body>
 <div layout:fragment="content">
@@ -19,11 +19,11 @@
             <form th:action="@{/admin/management/create}" th:object="${admin}" method="post">
                 <label for="Name">Name</label>
                 <input th:field="*{name}" type="text" class="form-control" id="Name"
-                       aria-describedby="cateHelp" placeholder="Category name">
+                       aria-describedby="cateHelp" placeholder=" name">
                 <div class="form-group">
-                    <label for="Name">Name</label>
-                    <input th:field="*{email}" type="text" class="form-control" id="email"
-                           aria-describedby="cateHelp" placeholder="Category name">
+                    <label for="Name">Email</label>
+                    <input th:field="*{email}" type="email" class="form-control" id="email"
+                           aria-describedby="cateHelp" placeholder="email">
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">Create</button>

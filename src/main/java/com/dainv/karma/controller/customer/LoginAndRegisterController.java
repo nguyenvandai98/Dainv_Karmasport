@@ -70,16 +70,16 @@ public class LoginAndRegisterController {
         Admin admin = adminService.findByEmail(email);
         if(customerService.checkLogin(email,pass)){
             customer.setPassword(null);
-            session.setAttribute("customer", customer);
+            session.setAttribute("customer", customer.getCustomerId());
             return "redirect:/home";
         }else if(adminService.checkLogin(email,pass)){
             admin.setPassword(null);
-            session.setAttribute("admin", admin);
+            session.setAttribute("admin", admin.getId());
             return "redirect:/admin/dashboard";
         }
         ra.addAttribute("alert", "alert alert-danger");
         ra.addAttribute("message", "Login fail");
-        return "customer/login";
+        return "redirect:/login";
 
     }
 

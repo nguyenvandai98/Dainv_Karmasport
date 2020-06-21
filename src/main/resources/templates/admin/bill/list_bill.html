@@ -5,7 +5,7 @@
       layout:decorate="~{admin/commons/layout.html}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>ADMIN | Karma sport</title>
 </head>
 <body>
 
@@ -37,6 +37,7 @@
                             <th>Consignee's phone</th>
                             <th>Address</th>
                             <th>Status</th>
+                            <th></th>
 
                         </tr>
                         </thead>
@@ -57,8 +58,50 @@
                                     <a th:case="1" class="btn btn-success">Received</a>
                                     <a th:case="2" class="btn btn-danger">Canceled</a>
                                 </td>
+                                <td>
+                                    <a data-toggle="modal" th:data-target="${'#detail'+ bill.getId()}">more detail</a>
+                                </td>
 
                             </tr>
+                            <div class="modal fade" th:id="${'detail'+ bill.getId()}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="ad"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <li class="list-group-item" th:each="detail: ${bill.getBill_details()}">
+                                                <div class="row">
+                                                    <div class="col-sm-2">
+                                                        <img th:src="${'/upload/'+detail.getProduct().getImage()}" width="120px"
+                                                             height="120px">
+                                                    </div>
+                                                    <div class="col-sm-8">
+                                                        <p th:text="${detail.getProduct().getProductName()}"></p>
+                                                        <p th:text="${detail.getQuantity()}"><span style="color: gray">quantity:</span></p>
+                                                    </div>
+                                                    <div class="col-sm-2" style="color: red"
+                                                         th:text="${'$'+(detail.getQuantity()* detail.getPrice())}"></div>
+                                                </div>
+                                            </li>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <div th:switch="${bill.getStatus()}">
+                                                <button th:case="0" type="button" class="btn btn-primary" data-toggle="modal" th:data-target="${'#Modal'+ bill.getId()}">
+                                                    Delivery
+                                                </button>
+                                                <a th:case="1" class="btn btn-success">Received</a>
+                                                <a th:case="2" class="btn btn-danger">Canceled</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="modal fade" th:id="${'Modal'+ bill.getId()}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
@@ -69,7 +112,7 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            Has the order been delivered?
+
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>

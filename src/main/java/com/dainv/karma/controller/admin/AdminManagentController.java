@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 @Controller
@@ -21,7 +22,11 @@ public class AdminManagentController {
     private AdminService adminService;
 
     @GetMapping(value = "/create")
-    public String creat(Model model) {
+    public String creat(Model model, HttpSession session) {
+        Integer adminId = (Integer) session.getAttribute("admin");
+        if(adminId == null || adminService.findById(adminId).get().getRole() >0){
+            return "redirect:/admin/dashboard";
+        }
         model.addAttribute("admin", new Admin());
         return "admin/adminManagement/detail";
     }
@@ -32,6 +37,7 @@ public class AdminManagentController {
             if (adminService.findByEmail(admin.getEmail()) == null) {
                 admin.setEnable(true);
                 admin.setPassword("123");
+                admin.setRole(1);
                 adminService.Save(admin);
                 model.addAttribute("alert", "alert alert-success");
                 model.addAttribute("message", "{success}");
@@ -43,7 +49,7 @@ public class AdminManagentController {
         } catch (Exception e) {
             return "redirect:/404";
         }
-        return "admin/adminManagement/list";
+        return "admin/adminManagement/detail";
     }
     @GetMapping(value = "/enable/{id}")
     public String enable(@PathVariable("id")int id, Model model){
@@ -52,8 +58,6 @@ public class AdminManagentController {
           if(admin!= null){
               admin.setEnable(false);
               adminService.Save(admin);
-
-
           }else {
               return "redirect:/404";
           }
@@ -80,9 +84,13 @@ public class AdminManagentController {
     }
 
     @GetMapping("/list")
-    public String list(Model model){
-        model.addAttribute("admins", adminService.findAll());
-        return "admin/adminManagement/list";
+    public String list(Model model,HttpSession session){
+        Integer adminId = (Integer) session.getAttribute("admin");
+        if(adminId == null || adminService.findById(adminId).get().getRole() >0){
+            return "redirect:/admin/dashboard";
+        }
+        model.addAttribute("admins", adminService.findALlByRole(0));
+        return "redirect:/admin/management/list";
     }
 
 }

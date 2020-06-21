@@ -44,6 +44,23 @@ $(document).ready(function() {
         messages : {
         }
     });
+    $('#adminChangePassword').validate({
+        rules : {
+            oldPassword : {
+                required : true,
+            },
+            newPassword : {
+                required : true,
+                minlength: 8
+            },
+            confirm : {
+                required : true,
+                equalTo : "#newPassword"
+            },
+        },
+        messages : {
+        }
+    });
 });
 
 

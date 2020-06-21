@@ -3,7 +3,7 @@ package com.dainv.karma.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "adminManagement")
+@Table(name = "admin")
 public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

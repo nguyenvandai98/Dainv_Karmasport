@@ -68,6 +68,7 @@ public class ProductController {
         return "admin/product/list_product";
     }
 
+
     @GetMapping(value = "update/{id}")
     public String Update(Model model,@PathVariable("id")Long id){
         Product product = productService.findById(id);

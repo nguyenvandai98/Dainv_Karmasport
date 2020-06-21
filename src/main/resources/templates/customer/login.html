@@ -4,7 +4,7 @@
       layout:decorate="~{customer/commons/layout.html}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Karma| Login</title>
 </head>
 <body>
 <div layout:fragment="content">
@@ -25,12 +25,15 @@
                 <div class="col-lg-6">
                     <div class="login_form_inner">
                         <h3>Log in to enter</h3>
-                        <th:block th:if="${message}">
-                            <div th:class="${alert}" role="alert" th:text="${message}">
-                            </div>
-                        </th:block>
+
                         <form class="row login_form" action="/authentic_login" method="post" id="contactForm"
                               novalidate="novalidate">
+                            <div class="col-md-12 form-group">
+                                <th:block th:if="${message}">
+                                    <div th:class="${alert}" role="alert" th:text="${message}">
+                                    </div>
+                                </th:block>
+                            </div>
                             <div class="col-md-12 form-group">
                                 <input type="text" class="form-control" id="email" name="email" placeholder="Email"
                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">

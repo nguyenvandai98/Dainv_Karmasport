@@ -20,10 +20,14 @@ public class ProfileController {
 
     @GetMapping("")
     public String profile(Model model, HttpSession session){
-        Customer customer = (Customer) session.getAttribute("customer");
-        if(customer == null){
-            return "redirect:/login";
+        Long customerId = (Long) session.getAttribute("customer");
+
+        if(customerId == null){
+            return "redirect:/404";
         }
+        Customer customer = customerService.findById(customerId);
+        customer.setPassword("0");
+
         model.addAttribute("customer", customer);
         return "customer/profile";
     }
@@ -35,11 +39,11 @@ public class ProfileController {
 
     @PostMapping(value = "change/password")
     public String changepass(Model model, @RequestParam("oldPassword")String oldpass,@RequestParam("newPassword")String newpass,HttpSession session) {
-        Customer cus = (Customer) session.getAttribute("customer");
+        Long cus = (Long) session.getAttribute("customer");
         if(cus == null){
             return "redirect:/login";
         }
-        Customer customer = customerService.findById(cus.getCustomerId());
+        Customer customer = customerService.findById(cus);
         if(oldpass.equals(customer.getPassword())){
             customer.setPassword(newpass);
             customerService.save(customer);
@@ -55,12 +59,13 @@ public class ProfileController {
 
     @PostMapping(value = "/update")
     public String update(Model model, Customer customer, HttpSession session, @RequestParam("date")String date) {
-        Customer cus2 = (Customer) session.getAttribute("customer");
-        if(cus2 == null){
-            return "redirect:/login";
+        Long customerId = (Long) session.getAttribute("customer");
+
+        if(customerId == null){
+            return "redirect:/404";
         }
         try{
-            Customer cus = customerService.findById(cus2.getCustomerId());
+            Customer cus = customerService.findById(customerId);
             cus.setCustomerName(customer.getCustomerName());
             cus.setAddress(customer.getAddress());
             if(date.length() >0){

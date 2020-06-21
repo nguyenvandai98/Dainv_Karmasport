@@ -27,11 +27,11 @@ public class CartController {
 
     @GetMapping(value = "/cart")
     public String cart(HttpSession session, Model model) {
-        Customer customer = (Customer) session.getAttribute("customer");
-        if(customer==null){
+        Long customerId = (Long) session.getAttribute("customer");
+        if(customerId == null){
             return "redirect:/login";
         }
-        List<Cart> carts = cartService.findByCustomerId(customer.getCustomerId());
+        List<Cart> carts = cartService.findByCustomerId(customerId);
         model.addAttribute("totalmoney",  UntilitiesHelper.gettotal(carts));
        model.addAttribute("carts",carts) ;
         return "customer/cart";
@@ -39,16 +39,18 @@ public class CartController {
 
     @GetMapping(value = "/addtocart/{id}")
     public String addToCart(@PathVariable("id")Long proid,Model model, HttpSession session){
-        Customer customer = (Customer) session.getAttribute("customer");
+        Long customerId = (Long) session.getAttribute("customer");
         Product product = productService.findById(proid);
         Cart cart = new Cart();
-        if(customer==null){
+
+        if(customerId == null || product ==null){
             return "redirect:/login";
         }
-        List<Cart> cartList = cartService.findByCustomerId(customer.getCustomerId());
+
+        List<Cart> cartList = cartService.findByCustomerId(customerId);
         if(addtocart(cartList,proid)){
             if (product.getProductID() != null){
-                cart.setCustomer(customer);
+                cart.setCustomer(customerService.findById(customerId));
                 cart.setProduct(product);
                 cart.setQuantity(1);
                 cartService.save(cart);
@@ -61,6 +63,7 @@ public class CartController {
 
     @PostMapping(value = "/cart/update/{id}")
     public String update(@PathVariable("id")Long cartId, @RequestParam("quantity")int quantity){
+
         Cart cart = cartService.findById(cartId);
        if(cart != null){
            cart.setQuantity(quantity);
@@ -82,8 +85,8 @@ public class CartController {
     }
 
     private boolean addtocart(List<Cart> list, Long proid){
-        for (Cart cart : list){
 
+        for (Cart cart : list){
             if(cart.getProduct().getProductID() == proid){
                 cart.setQuantity(cart.getQuantity()+1);
                 cartService.save(cart);

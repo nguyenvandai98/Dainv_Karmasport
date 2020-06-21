@@ -7,10 +7,13 @@ import org.springframework.stereotype.Repository;
 
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 @Transactional
 public interface AdminRepository extends JpaRepository<Admin,Integer> {
-      @Query("select c from Admin c where c.Email= :email")
+     @Query("select c from Admin c where c.Email= :email")
       Admin findAdminByEmail(String email);
+      @Query("select a from  Admin a where a.role > :role")
+      List<Admin> findAllByRole(int role);
 }

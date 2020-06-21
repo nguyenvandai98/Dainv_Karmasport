@@ -3,7 +3,7 @@
       layout:decorate="~{customer/commons/layout.html}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Karma| Cart</title>
 </head>
 <body>
 <div layout:fragment="content">
@@ -12,7 +12,7 @@
         <div class="container">
             <div class="cart_inner">
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table" th:if="${carts.size() >0}">
                         <thead>
                         <tr>
                             <th scope="col">Product</th>
@@ -24,7 +24,8 @@
                         </thead>
                         <tbody>
                         <!-- single cart detail-->
-                        <tr th:each="cart : ${carts}">
+                       
+                        <tr  th:each="cart : ${carts}">
                             <form th:action="${'/cart/update/'+ cart.getId()}" method="post">
                             <td>
                                 <div class="media">
@@ -120,8 +121,14 @@
                                 </div>
                             </td>
                         </tr>
+                     
                         </tbody>
                     </table>
+                    <div th:if="${carts.size()==0}" style="margin: 0 auto; width: 1000px" >
+                        <img src="/customer/img/empty-cart.png" height="400px" width="900px">
+                        <a class="primary-btn" href="/home" style="margin-left: 270px ">Continue
+                            Shopping</a>
+                    </div>
                 </div>
             </div>
         </div>
