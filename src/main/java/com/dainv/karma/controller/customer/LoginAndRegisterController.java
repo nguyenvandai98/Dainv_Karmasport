@@ -7,12 +7,10 @@ import com.dainv.karma.sevice.IService.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -21,6 +19,11 @@ public class LoginAndRegisterController {
     private CustomerService customerService;
     @Autowired
     private AdminService adminService;
+
+    @ModelAttribute("customer")
+    public Customer setUpUserForm() {
+        return new Customer();
+    }
 
     @GetMapping(value = "/login")
     public String login(@ModelAttribute("alert")String alert, @ModelAttribute("message")String message,Model model) {
@@ -64,11 +67,12 @@ public class LoginAndRegisterController {
     }
 
     @PostMapping(value = "authentic_login")
-    public String login(Model model, HttpSession session, @RequestParam("email") String email, @RequestParam("pass") String pass,
+    public String login(Model model, HttpSession session, @RequestParam("email") String email, @RequestParam("password") String pass,
     RedirectAttributes ra) {
         Customer customer = customerService.finByEmail(email);
         Admin admin = adminService.findByEmail(email);
         if(customerService.checkLogin(email,pass)){
+
             customer.setPassword(null);
             session.setAttribute("customer", customer.getCustomerId());
             return "redirect:/home";

@@ -680,5 +680,19 @@ $(document).ready(function() {
         messages : {
         }
     });
+    $('#loginForm').validate({
+        rules : {
+            email : {
+                required : true,
+                email: true
+            },
+            password : {
+                required : true,
+            },
+
+        },
+        messages : {
+        }
+    });
 });
 

@@ -11,7 +11,7 @@ public class UntilitiesHelper {
     public static int gettotal(List<Cart> carts){
         int total = 0;
         for (Cart c: carts) {
-            total += (c.getProduct().getPrice() * c.getQuantity());
+            total += ((c.getProduct().getPrice() -(c.getProduct().getPrice()/100 * c.getProduct().getSale()) )* c.getQuantity());
         }
         return total;
     }

@@ -15,6 +15,11 @@ public class Bill {
     @ManyToOne()
     private Customer customer;
 
+    @JoinColumn(name = "status_id")
+    @ManyToOne
+    private BillStatus status;
+
+
     private Date orderDate;
 
     private Date receivedDate;
@@ -29,8 +34,18 @@ public class Bill {
     @OneToMany(mappedBy = "bill",cascade= CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Bill_detail> bill_details;
 
-    // 0- delivery, 1-received, 2- cancelled
-    private int status;
+
+
+    @Column(columnDefinition = "Text")
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public Long getId() {
         return id;
@@ -88,11 +103,11 @@ public class Bill {
         this.phone = phone;
     }
 
-    public int getStatus() {
+    public BillStatus getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(BillStatus status) {
         this.status = status;
     }
 

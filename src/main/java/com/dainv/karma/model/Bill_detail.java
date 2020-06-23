@@ -17,6 +17,7 @@ public class Bill_detail {
     @JoinColumn(name = "productid", referencedColumnName = "productid", foreignKey = @ForeignKey(name = "FK_PRODUCT_BILLDETAIL"))
     private Product product;
 
+
     private int quantity;
 
     private int price;

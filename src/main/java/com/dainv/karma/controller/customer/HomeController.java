@@ -29,11 +29,14 @@ public class HomeController {
     @GetMapping(value={"home",""})
     public String home(Model model, @RequestParam(name = "page", defaultValue="0" )int page,
                                     @RequestParam(name = "category", defaultValue = "all")String category) {
-
-        model.addAttribute("products",productRepository.findAllByStatus(true,PageRequest.of(page,6)));
-
+        if(category.equals("all")) {
+            model.addAttribute("products", productRepository.findAllByStatus(true, PageRequest.of(page, 6)));
+        }else {
+            model.addAttribute("products",productRepository.findAllByStatusAndAndCategory(true,category,PageRequest.of(page, 6)));
+        }
 
         model.addAttribute("categories",categoryService.findAll());
+        model.addAttribute("categoryName", category);
         return "customer/homepage";
     }
      @GetMapping(value = "/404")

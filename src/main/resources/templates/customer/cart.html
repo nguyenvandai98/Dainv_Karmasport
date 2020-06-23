@@ -39,7 +39,8 @@
                                 </div>
                             </td>
                             <td>
-                                <h5 th:text="${cart.getProduct().getPrice()+'$'}"></h5>
+
+                                <h5 th:text="${cart.getProduct().getPrice() - (cart.getProduct().getPrice()/100 * cart.getProduct().getSale()) +'$'}"></h5>
                             </td>
                             <td>
                                 <div class="product_count">

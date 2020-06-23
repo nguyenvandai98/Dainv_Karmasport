@@ -58,7 +58,7 @@ public class BillController {
             Bill bill = new Bill();
             bill.setTotalMoney(UntilitiesHelper.gettotal(carts));
             bill.setOrderDate(new Date());
-            bill.setStatus(0);
+//            bill.setStatus(0);
             bill.setAddress(address);
             bill.setPhone(phone);
             bill.setCustomer(customerService.findById(customerId));
@@ -82,13 +82,21 @@ public class BillController {
         return "customer/purchase";
     }
 
-    @GetMapping(value = "/purchase/bill/update/{id}")
-    public String update(@PathVariable("id")Long id){
+    @GetMapping(value = "/purchase/bill/update/cancel/{id}")
+    public String update(@PathVariable("id")Long id,@RequestParam("reason")String reason,
+                                                     @RequestParam("otherReason")String otherReason){
+        StringBuilder stringBuilder = new StringBuilder();
         Bill bill = billService.findById(id);
         if(bill == null){
             return "redirect:/404";
         }
-        bill.setStatus(2);
+
+        stringBuilder.append("Reason for canceling an order: "+ reason +"\n");
+        stringBuilder.append("customer's message: "+otherReason +"\n");
+
+        bill.setStatus(new BillStatus(5,null));
+        bill.setDescription(new String(stringBuilder));
+
         billService.save(bill);
         List<Bill_detail> billDetailList = bill.getBill_details();
         for (Bill_detail d: billDetailList) {
@@ -96,7 +104,6 @@ public class BillController {
             pro.setQuantity(pro.getQuantity()+d.getQuantity());
             productService.save(pro);
         }
-
         return "redirect:/purchase";
     }
 

@@ -29,6 +29,13 @@ public class Product implements Serializable {
 
     private String image;
 
+    private String image1;
+
+    private String image2;
+
+    @Column(name = "sale")
+    private double sale  = 0;
+
     @Column(columnDefinition = "Text")
     private String description;
 
@@ -110,6 +117,30 @@ public class Product implements Serializable {
 
     public void setCarts(List<Cart> carts) {
         this.carts = carts;
+    }
+
+    public String getImage1() {
+        return image1;
+    }
+
+    public void setImage1(String image1) {
+        this.image1 = image1;
+    }
+
+    public String getImage2() {
+        return image2;
+    }
+
+    public void setImage2(String image2) {
+        this.image2 = image2;
+    }
+
+    public double getSale() {
+        return sale;
+    }
+
+    public void setSale(double sale) {
+        this.sale = sale;
     }
 
     @Override

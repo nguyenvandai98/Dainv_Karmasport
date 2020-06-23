@@ -16,4 +16,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("select c from Product c where c.status = :status")
     Page<Product> findAllByStatus(boolean status, Pageable pageable);
+
+    @Query("select c from Product c where c.status= :status and c.category.categoryName like :categoryName")
+    Page<Product> findAllByStatusAndAndCategory(boolean status,String categoryName, Pageable pageable);
 }

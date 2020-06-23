@@ -38,7 +38,8 @@ public class CartController {
     }
 
     @GetMapping(value = "/addtocart/{id}")
-    public String addToCart(@PathVariable("id")Long proid,Model model, HttpSession session){
+    public String addToCart(@PathVariable("id")Long proid, HttpSession session,
+                            @RequestParam(name = "quantity",defaultValue = "1")int quantity){
         Long customerId = (Long) session.getAttribute("customer");
         Product product = productService.findById(proid);
         Cart cart = new Cart();
@@ -48,7 +49,7 @@ public class CartController {
         }
 
         List<Cart> cartList = cartService.findByCustomerId(customerId);
-        if(addtocart(cartList,proid)){
+        if(addtocart(cartList,proid,quantity)){
             if (product.getProductID() != null){
                 cart.setCustomer(customerService.findById(customerId));
                 cart.setProduct(product);
@@ -84,11 +85,11 @@ public class CartController {
         return "redirect:/cart";
     }
 
-    private boolean addtocart(List<Cart> list, Long proid){
+    private boolean addtocart(List<Cart> list, Long proid,int quatity){
 
         for (Cart cart : list){
             if(cart.getProduct().getProductID() == proid){
-                cart.setQuantity(cart.getQuantity()+1);
+                cart.setQuantity(cart.getQuantity()+quatity);
                 cartService.save(cart);
                 return false;
             }
