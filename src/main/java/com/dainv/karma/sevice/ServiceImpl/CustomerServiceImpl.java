@@ -41,7 +41,7 @@ public class CustomerServiceImpl implements CustomerService {
     public boolean checkLogin(String email, String password) {
         Customer customer = customerRepository.findbyEmail(email);
         if (customer != null) {
-            if (password.equals(customer.getPassword())) {
+            if (password.equals(customer.getPassword()) && customer.isStatus()) {
                 return true;
             }
         }

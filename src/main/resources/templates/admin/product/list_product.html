@@ -10,10 +10,7 @@
 <body>
 
 <main layout:fragment="content">
-    <th:block th:if="${message}">
-        <div th:class="${alert}" role="alert" th:text="${message}">
-        </div>
-    </th:block>
+
 
     <div class="container-fluid">
         <h1 class="mt-4">PRODUCT</h1>
@@ -27,7 +24,10 @@
 
         </div>
         <div class="card mb-4">
-            <div class="card-header"><i class="fas fa-table mr-1"></i></div>
+            <div class="card-header">  <th:block th:if="${message}">
+                <div th:class="${alert}" role="alert" th:text="${message}">
+                </div>
+            </th:block></div>
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">

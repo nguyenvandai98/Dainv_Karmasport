@@ -18,8 +18,6 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     private EntityManager entityManager;
 
 
-
-
     @Override
     public List<Customer> findAll() {
         String query = "select c from Customer c";

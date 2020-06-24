@@ -32,6 +32,9 @@ public class Customer {
     @OneToMany(mappedBy = "customer")
     private List<Bill> bills;
 
+    @Column(columnDefinition = "bit default 1")
+    private boolean status;
+
     public Long getCustomerId() {
         return customerId;
     }
@@ -102,5 +105,13 @@ public class Customer {
 
     public void setBills(List<Bill> bills) {
         this.bills = bills;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }

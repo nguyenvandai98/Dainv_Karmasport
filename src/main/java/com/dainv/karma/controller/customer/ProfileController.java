@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
@@ -19,11 +20,11 @@ public class ProfileController {
     private CustomerService customerService;
 
     @GetMapping("")
-    public String profile(Model model, HttpSession session){
+    public String profile(Model model, HttpSession session,@ModelAttribute("alert")String alert,@ModelAttribute("message")String message){
         Long customerId = (Long) session.getAttribute("customer");
 
         if(customerId == null){
-            return "redirect:/404";
+            return "redirect:/login";
         }
         Customer customer = customerService.findById(customerId);
         customer.setPassword("0");
@@ -58,7 +59,8 @@ public class ProfileController {
     }
 
     @PostMapping(value = "/update")
-    public String update(Model model, Customer customer, HttpSession session, @RequestParam("date")String date) {
+    public String update(Model model, Customer customer, HttpSession session, @RequestParam("date")String date,
+                         RedirectAttributes ra) {
         Long customerId = (Long) session.getAttribute("customer");
 
         if(customerId == null){
@@ -72,12 +74,12 @@ public class ProfileController {
                 cus.setBirthday(UntilitiesHelper.stringToDate(date));
             }
             customerService.save(cus);
-            model.addAttribute("alert", "alert alert-success");
-            model.addAttribute("message","Update your profile successfully");
+            ra.addFlashAttribute("alert", "alert alert-success");
+            ra.addFlashAttribute("message","Update your profile successfully");
         }catch (Exception e){
          e.printStackTrace();
         }
-        return "customer/profile";
+        return "redirect:/profile/";
     }
 
 }

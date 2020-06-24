@@ -75,10 +75,6 @@ public class BillRepositoryImpl implements BillRepository {
 
             entityManager.persist(bill_detail);
 
-            Product product = cart.getProduct();
-            product.setQuantity(product.getQuantity()-cart.getQuantity());
-            productService.save(product);
-
             cartService.remove(cart.getId());
         }
     }

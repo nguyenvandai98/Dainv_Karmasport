@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/commons/layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>ADMIN | Karma sport</title>
+</head>
+<body>
+
+<main layout:fragment="content">
+
+    <div class="container-fluid">
+        <h1 class="mt-4">Customer management</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active">list customer</li>
+        </ol>
+        <div class="row">
+
+        </div>
+        <div class="row">
+
+        </div>
+        <div class="card mb-4">
+            <div class="card-header">  <th:block th:if="${message}">
+                <div th:class="${alert}" role="alert" th:text="${message}">
+                </div>
+            </th:block></div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <div th:each="customer : ${customers}">
+                            <tr>
+
+                                <td th:text="${customer.getCustomerName()}"></td>
+                                <td th:text="${customer.getEmail()}"></td>
+                                <td th:text="${customer.getPhone()}"></td>
+                                <td>
+                                    <button th:if="${customer.isStatus()}" type="button" class="btn btn-success" data-toggle="modal" data-target="#disable">
+                                        Active
+                                    </button>
+                                    <button th:unless="${customer.isStatus()}" type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal">
+                                        Disabled
+                                    </button>
+                                </td>
+                                <td>
+                                    <button th:if="${customer.isStatus()}" type="button" class="btn btn-outline-warning" data-toggle="modal" th:data-target="${'#disable'+customer.getCustomerId()}">
+                                        Disable
+                                    </button>
+                                    <button th:unless="${customer.isStatus()}" type="button" class="btn btn-outline-success" data-toggle="modal" th:data-target="${'#active'+customer.getCustomerId()}">
+                                       Active
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <!-- Modal disable-->
+                            <div class="modal fade" th:id="${'disable'+customer.getCustomerId()}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <span th:text="${'Are you sure you want to disable the client''s account named :'}"></span>
+                                            <b th:text="${customer.getCustomerName()}"></b>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                            <a type="button" th:href="@{/admin/customer/update(id=${customer.getCustomerId()},status=${'disable'})}" class="btn btn-primary">Confirm</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+<!--                            Modal active-->
+                            <div class="modal fade" th:id="${'active'+customer.getCustomerId()}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModa">Modal title</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <span th:text="${'Are you sure you want to unblock the client''s account named: '}"></span>
+                                            <b th:text="${customer.getCustomerName()}"></b>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                            <a type="button" th:href="@{/admin/customer/update(id=${customer.getCustomerId()},status=${'active'})}" class="btn btn-primary">Confirm</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

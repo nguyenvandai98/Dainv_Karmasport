@@ -54,13 +54,16 @@ public class CategoryController {
 
     @GetMapping(value = "delete/{id}")
     public ModelAndView delete(@PathVariable("id")Long id) {
-
-        categoryService.remove(id);
-
         ModelAndView modelAndView = new ModelAndView("/admin/category/category_list");
-        modelAndView.addObject("message", "delete category successfully!!! ");
-        modelAndView.addObject("categories", categoryService.findAll());
+      try{
+          categoryService.remove(id);
 
+          modelAndView.addObject("message", "delete category successfully!!! ");
+          modelAndView.addObject("categories", categoryService.findAll());
+      }catch (Exception e){
+          modelAndView.addObject("message", "delete category fail!!! ");
+          modelAndView.addObject("categories", categoryService.findAll());
+      }
         return modelAndView;
     }
 

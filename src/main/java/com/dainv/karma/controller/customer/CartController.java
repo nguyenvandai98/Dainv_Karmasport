@@ -37,8 +37,8 @@ public class CartController {
         return "customer/cart";
     }
 
-    @GetMapping(value = "/addtocart/{id}")
-    public String addToCart(@PathVariable("id")Long proid, HttpSession session,
+    @GetMapping(value = "/addtocart")
+    public String addToCart(@RequestParam("id")Long proid, HttpSession session,
                             @RequestParam(name = "quantity",defaultValue = "1")int quantity){
         Long customerId = (Long) session.getAttribute("customer");
         Product product = productService.findById(proid);
@@ -53,7 +53,7 @@ public class CartController {
             if (product.getProductID() != null){
                 cart.setCustomer(customerService.findById(customerId));
                 cart.setProduct(product);
-                cart.setQuantity(1);
+                cart.setQuantity(quantity);
                 cartService.save(cart);
             }else{
                 return "redirect:/404";

@@ -11,6 +11,17 @@
 <body>
 
 <div layout:fragment="content" class="container" style="height: 900px;padding-top: 70px">
+    <div th:if="${message.length() >0}">
+        <div class="modal fade" id="mess" >
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h5 th:text="${message}"></h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div th:replace="~{customer/commons/sidebarprofile ::sidebarprofile}"></div>
         <div class="col-xl-9 col-lg-8 col-md-7">

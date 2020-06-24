@@ -694,5 +694,7 @@ $(document).ready(function() {
         messages : {
         }
     });
+    $('#mess').modal('show');
+
 });
 

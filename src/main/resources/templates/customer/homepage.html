@@ -104,7 +104,7 @@
                                 </div>
                                 <div class="prd-bottom">
 
-                                    <a th:if="${prod.getQuantity() > 0}" th:href="${'/addtocart/'+prod.getProductID()}" class="social-info">
+                                    <a th:if="${prod.getQuantity() > 0}" th:href="@{/addtocart(id=${prod.getProductID()})}" class="social-info">
                                         <span class="ti-bag"></span>
                                         <p class="hover-text">add to bag</p>
                                     </a>

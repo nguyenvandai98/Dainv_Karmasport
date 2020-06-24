@@ -45,6 +45,7 @@ public class LoginAndRegisterController {
 
         try {
             if (customerService.finByEmail(customer.getEmail()) == null) {
+                customer.setStatus(true);
                 customerService.save(customer);
                 ra.addFlashAttribute("alert", "alert alert-success");
                 ra.addFlashAttribute("message", "Account registration successful");

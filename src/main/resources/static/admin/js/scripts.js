@@ -55,12 +55,13 @@ $(document).ready(function() {
             },
             confirm : {
                 required : true,
-                equalTo : "#newPassword"
+                equalTo : '#newPassword'
             },
         },
         messages : {
         }
     });
+    $('#mess').modal('show');
 });
 
 
