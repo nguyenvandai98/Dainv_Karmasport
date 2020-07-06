@@ -594,34 +594,6 @@ $(document).ready(function() {
 
         },
         messages : {
-
-            // name : {
-            //     required : "Your name is required",
-            //     minlength : "User name must be longer than 5 characters"
-            // },
-            //
-            // phone : {
-            //     required : "Your phone is required",
-            //     minlength : "Your phone is Invalid"
-            // },
-            // email : {
-            //     required : "Please fill this field",
-            //     email : "Email is Invalid"
-            //
-            // },
-            // password : {
-            //     required : 'Your password is required',
-            //     minlength : 'Password must be longer than 8 characters'
-            // },
-            // repeatPassword : {
-            //     required : 'Please, fill this field',
-            //     equalTo : 'confirm password is Invalid'
-            // },
-            // address : {
-            //     required : 'Please, fill this field',
-            //     minlength : 'Password must be longer than 5 characters',
-            // },
-
         }
     });
 

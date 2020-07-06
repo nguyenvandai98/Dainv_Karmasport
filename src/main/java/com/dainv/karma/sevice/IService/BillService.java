@@ -9,6 +9,7 @@ public interface BillService {
     List<Bill> billList();
     void save(Bill bill);
     List<Bill> findAll();
+    List<Bill> findByStatus(int statusId);
 
     Bill findById(Long id);
     List<Bill> findByCustomer(Long customerId);

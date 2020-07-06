@@ -26,7 +26,6 @@ public class BillDetailRepositoryImpl implements BilDetailRepository {
 
     @Override
     public void save(Bill_detail model) {
-
     }
 
     @Override
@@ -38,6 +37,5 @@ public class BillDetailRepositoryImpl implements BilDetailRepository {
 
     @Override
     public void update(Bill_detail model) {
-
     }
 }

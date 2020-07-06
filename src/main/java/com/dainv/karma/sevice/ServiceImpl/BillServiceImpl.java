@@ -31,6 +31,11 @@ public class BillServiceImpl implements BillService {
     }
 
     @Override
+    public List<Bill> findByStatus(int statusId) {
+       return billRepository.findByStatus(statusId);
+    }
+
+    @Override
     public Bill findById(Long id) {
         return billRepository.findById(id);
     }

@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface BillRepository extends Repository<Bill> {
     List<Bill> findByCustomer(Long customerId);
-
+    List<Bill> findByStatus(int statusId);
     void saveBillAndBillDetail(Bill bill, List<Cart> carts);
 }

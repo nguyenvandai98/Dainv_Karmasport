@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +33,33 @@ public class BillManagementController {
 
     @GetMapping(value = "list")
     public String list(Model model,@ModelAttribute("alert")String alert,@ModelAttribute("message")String message) {
-        model.addAttribute("bills", billService.findAll());
+        List<Bill> billsWaitConfirm = billService.findByStatus(1);
+        billsWaitConfirm.sort(Comparator.comparing(Bill :: getOrderDate).reversed());
+
+        List<Bill> billsConfirmed = billService.findByStatus(2);
+        billsConfirmed.sort(Comparator.comparing(Bill :: getOrderDate).reversed());
+
+        List<Bill> billsOnDelivery = billService.findByStatus(3);
+        billsOnDelivery.sort(Comparator.comparing(Bill :: getOrderDate).reversed());
+
+        List<Bill> billsSuccess = billService.findByStatus(4);
+        billsSuccess.sort(Comparator.comparing(Bill :: getOrderDate).reversed());
+
+        List<Bill> billsCancel = billService.findByStatus(5);
+        billsCancel.sort(Comparator.comparing(Bill :: getOrderDate).reversed());
+
+        List<Bill> billsDeliveryFail = billService.findByStatus(6);
+        billsDeliveryFail.sort(Comparator.comparing(Bill :: getOrderDate).reversed());
+
+
+
+        model.addAttribute("billsWaitConfirm", billsWaitConfirm);
+        model.addAttribute("billsConfirmed", billsConfirmed);
+        model.addAttribute("billsOnDelivery", billsOnDelivery);
+        model.addAttribute("billsSuccess", billsSuccess);
+        model.addAttribute("billsCancel", billsCancel);
+        model.addAttribute("billsDeliveryFail", billsDeliveryFail);
+
         model.addAttribute("alert",alert);
         model.addAttribute("message",message);
         return "admin/bill/list_bill";

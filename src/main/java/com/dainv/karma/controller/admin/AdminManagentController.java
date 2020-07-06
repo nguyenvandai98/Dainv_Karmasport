@@ -97,8 +97,9 @@ public class AdminManagentController {
         }
         model.addAttribute("alert", alert);
         model.addAttribute("message", mesage);
+
         model.addAttribute("admins", adminService.findALlByRole(0));
-        return "redirect:/admin/management/list";
+        return "admin/adminManagement/list";
     }
 
 }

@@ -26,153 +26,1088 @@
 
         </div>
         <div class="card mb-4">
-            <div class="card-header"><i class="fas fa-table mr-1"></i>Ordered list</div>
+            <div class="card-header">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#wait">Wait for Confirm</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#confirmed">Confirmed</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#delivery">On delivery</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#success">Success</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#cancel">Cancel</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#fail">Delivery fail</a>
+                    </li>
+                </ul>
+            </div>
             <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                        <tr>
-                            <th>Bill ID</th>
-                            <th>Customer's Name</th>
-                            <th>Order date</th>
-                            <th>Received date</th>
+                <div>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div id="wait" class="container tab-pane active"><br>
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                    <tr>
+                                        <th>Bill ID</th>
+                                        <th>Customer's Name</th>
+                                        <th>Order date</th>
+                                        <th>Received date</th>
 
-                            <th>Consignee's phone</th>
-                            <th>Address</th>
-                            <th>Status</th>
-                            <th></th>
+                                        <th>Consignee's phone</th>
+                                        <th>Address</th>
+                                        <th>Status</th>
+                                        <th></th>
 
-                        </tr>
-                        </thead>
+                                    </tr>
+                                    </thead>
 
-                        <tbody>
-                        <div th:each="bill : ${bills}">
-                            <tr>
-                                <td th:text="${'BKS000'+bill.getId()}"></td>
-                                <td th:text="${bill.getCustomer().getCustomerName()}"></td>
-                                <td th:text="${#calendars.format(bill.getOrderDate(), 'dd-MM-yyyy')}"></td>
-                                <td th:utext="${#calendars.format(bill.getReceivedDate(), 'dd-MM-yyyy')}"></td>
-                                <td th:utext="${bill.getPhone()}"></td>
-                                <td th:utext="${bill.getAddress()}"></td>
-                                <td>
+                                    <tbody>
+                                    <div th:each="bill : ${billsWaitConfirm}">
+                                        <tr>
+                                            <td th:text="${'BKS000'+bill.getId()}"></td>
+                                            <td th:text="${bill.getCustomer().getCustomerName()}"></td>
+                                            <td th:text="${#calendars.format(bill.getOrderDate(), 'dd-MM-yyyy')}"></td>
+                                            <td th:utext="${#calendars.format(bill.getReceivedDate(), 'dd-MM-yyyy')}"></td>
+                                            <td th:utext="${bill.getPhone()}"></td>
+                                            <td th:utext="${bill.getAddress()}"></td>
+                                            <td>
 
-                                    <a class="btn btn-light" th:text="${bill.getStatus().getName()}" data-toggle="modal" th:data-target="${'#status'+ bill.getId()}"></a>
-                                </td>
-                                <td>
-                                    <a data-toggle="modal" th:data-target="${'#detail'+ bill.getId()}">more detail</a>
-                                </td>
+                                                <a class="btn btn-light" th:text="${bill.getStatus().getName()}"
+                                                   data-toggle="modal" th:data-target="${'#status'+ bill.getId()}"></a>
+                                            </td>
+                                            <td>
+                                                <a data-toggle="modal" th:data-target="${'#detail'+ bill.getId()}">more
+                                                    detail</a>
+                                            </td>
 
-                            </tr>
-<!--                    start modal detail-->
-                            <div class="modal fade" th:id="${'detail'+ bill.getId()}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
-                                <div class="modal-dialog" role="document" >
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="ad"></h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <li class="list-group-item" th:each="detail: ${bill.getBill_details()}">
-                                                <div class="row">
-                                                    <div class="col-sm-2">
-                                                        <img th:src="${'/upload/'+detail.getProduct().getImage()}" width="60px"
-                                                             height="60px">
+                                        </tr>
+                                        <!--                    start modal detail-->
+                                        <div class="modal fade" th:id="${'detail'+ bill.getId()}" tabindex="-1"
+                                             role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="ad"></h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
                                                     </div>
-                                                    <div class="col-sm-8">
-                                                        <p th:text="${detail.getProduct().getProductName()}"></p><br>
-                                                        <p th:text="${'quantity: '+detail.getQuantity()}"></p>
+                                                    <div class="modal-body">
+                                                        <div>
+                                                            <p>total:<span style="font-weight:bold; color: red"
+                                                                           th:text="${bill.getTotalMoney()+'$'}"></span>
+                                                            </p>
+                                                        </div>
+                                                        <hr>
+                                                        <li class="list-group-item"
+                                                            th:each="detail: ${bill.getBill_details()}">
+                                                            <div class="row">
+                                                                <div class="col-sm-2">
+                                                                    <img th:src="${'/upload/'+detail.getProduct().getImage()}"
+                                                                         width="60px"
+                                                                         height="60px">
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <p th:text="${detail.getProduct().getProductName()}"></p>
+                                                                    <br>
+                                                                    <p th:text="${'quantity: '+detail.getQuantity()}"></p>
+                                                                </div>
+                                                                <div class="col-sm-2" style="color: red"
+                                                                     th:text="${'$'+(detail.getQuantity()* detail.getPrice())}"></div>
+                                                            </div>
+                                                            <div th:if="${detail.getQuantity() > detail.getProduct().getQuantity()}">
+                                                                This product in stock is not enough:<a
+                                                                    th:href="@{/admin/bill/removeProduct(id=${detail.getId()})}">remove</a>
+                                                            </div>
+
+                                                        </li>
+                                                        <hr>
+                                                        <div th:text="${bill.getDescription()}"></div>
+
                                                     </div>
-                                                    <div class="col-sm-2" style="color: red"
-                                                         th:text="${'$'+(detail.getQuantity()* detail.getPrice())}"></div>
+                                                    <div class="modal-footer">
+                                                    </div>
                                                 </div>
-                                                <div th:if="${detail.getQuantity() > detail.getProduct().getQuantity()}">
-                                                    This product in stock is not enough:<a th:href="@{/admin/bill/removeProduct(id=${detail.getId()})}">remove</a>
-                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--end modal detail-->
+                                        <div class="modal fade" th:id="${'status'+ bill.getId()}" tabindex="-1"
+                                             role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalCenterTitle">Update
+                                                            order status</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div th:if="${bill.getStatus().getId() == 5 || bill.getStatus().getId() == 4}"
+                                                         class="modal-body">
+                                                        <p th:if="${bill.getStatus().getId()==5}">This order has been
+                                                            canceled</p>
+                                                        <p th:if="${bill.getStatus().getId()==4}">successful order
+                                                            transaction</p>
+                                                    </div>
 
-                                            </li>
-                                            <hr>
-                                            <div th:text="${bill.getDescription()}"></div>
-
-                                        </div>
-                                        <div class="modal-footer">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-<!--end modal detail-->
-                            <div class="modal fade" th:id="${'status'+ bill.getId()}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalCenterTitle">Update order status</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div th:if="${bill.getStatus().getId() == 5 || bill.getStatus().getId() == 4}" class="modal-body">
-                                           <p th:if="${bill.getStatus().getId()==5}" >This order has been canceled</p>
-                                            <p th:if="${bill.getStatus().getId()==4}" >successful order transaction</p>
-                                        </div>
-
-                                        <form th:if="${bill.getStatus().getId() != 5 && bill.getStatus().getId() != 4}" action="/admin/bill/update/status" method="post" id="StatusBill">
-                                        <div class="modal-body">
-                                                <div class="form-group">
-                                                    <input name="id" id="id" style="display: none" type="text" th:value="${bill.getId()}">
-                                                    <select class="form-control" id="status"  name="status" th:switch="${bill.getStatus().getId()}" onchange="if(this.value ==5){
+                                                    <form th:if="${bill.getStatus().getId() != 5 && bill.getStatus().getId() != 4}"
+                                                          action="/admin/bill/update/status" method="post"
+                                                          id="StatusBill">
+                                                        <div class="modal-body">
+                                                            <div class="form-group">
+                                                                <input name="id" id="id" style="display: none"
+                                                                       type="text" th:value="${bill.getId()}">
+                                                                <select class="form-control" id="status" name="status"
+                                                                        th:switch="${bill.getStatus().getId()}"
+                                                                        onchange="if(this.value ==5){
                                                         // this.document.getElementsByName('reason').style['display'] = 'inline'
 
                                                     }else {
                                                          // this.document.getElementsByName('reason').style['display'] = 'none'
                                                          }">
-                                                       <div th:case="1">
-                                                           <option value="0"></option>
-                                                           <option value="2">Confirmed</option>
-                                                           <option value="3">On delivery</option>
-                                                           <option value="5">Cancel</option>
-                                                       </div>
-                                                        <div th:case="2">
-                                                            <option value="0"></option>
-                                                            <option value="3">On delivery</option>
-                                                            <option value="4">Successfully</option>
-                                                            <option value="5">Cancel</option>
-                                                        </div>
-                                                        <div th:case="3">
-                                                            <option value="0"></option>
-                                                            <option value="4">Successfully</option>
-                                                            <option value="6">Delivery failed</option>
-                                                            <option value="5">Cancel</option>
-                                                        </div>
-                                                        <div th:case="6">
-                                                            <option value="0"></option>
-                                                            <option value="3">Delivery of goods</option>
-                                                            <option value="5">Cancel</option>
-                                                        </div>
-                                                    </select>
-                                                </div>
-                                            <div class="form-group" >
-                                                <label for="note">Note:</label>
-                                                <textarea class="form-control" name="note" id="note">
+                                                                    <div th:case="1">
+                                                                        <option value="0"></option>
+                                                                        <option value="2">Confirmed</option>
+                                                                        <option value="3">On delivery</option>
+                                                                        <option value="5">Cancel</option>
+                                                                    </div>
+                                                                    <div th:case="2">
+                                                                        <option value="0"></option>
+                                                                        <option value="3">On delivery</option>
+                                                                        <option value="4">Successfully</option>
+                                                                        <option value="5">Cancel</option>
+                                                                    </div>
+                                                                    <div th:case="3">
+                                                                        <option value="0"></option>
+                                                                        <option value="4">Successfully</option>
+                                                                        <option value="6">Delivery failed</option>
+                                                                        <option value="5">Cancel</option>
+                                                                    </div>
+                                                                    <div th:case="6">
+                                                                        <option value="0"></option>
+                                                                        <option value="3">Delivery of goods</option>
+                                                                        <option value="5">Cancel</option>
+                                                                    </div>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="note">Note:</label>
+                                                                <textarea class="form-control" name="note" id="note">
 
                                                 </textarea>
+                                                            </div>
+
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                    data-dismiss="modal">Close
+                                                            </button>
+                                                            <button type="submit" class="btn btn-primary">Save changes
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
                                             </div>
-
-
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button  type="submit" class="btn btn-primary">Save changes</button>
-                                        </div>
-                                        </form>
                                     </div>
-                                </div>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+<!--                       tab 2--------------------------------------->
+                        <div id="confirmed" class="container tab-pane fade"><br>
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
+                                    <thead>
+                                    <tr>
+                                        <th>Bill ID</th>
+                                        <th>Customer's Name</th>
+                                        <th>Order date</th>
+                                        <th>Received date</th>
+
+                                        <th>Consignee's phone</th>
+                                        <th>Address</th>
+                                        <th>Status</th>
+                                        <th></th>
+
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    <div th:each="bill : ${billsConfirmed}">
+                                        <tr>
+                                            <td th:text="${'BKS000'+bill.getId()}"></td>
+                                            <td th:text="${bill.getCustomer().getCustomerName()}"></td>
+                                            <td th:text="${#calendars.format(bill.getOrderDate(), 'dd-MM-yyyy')}"></td>
+                                            <td th:utext="${#calendars.format(bill.getReceivedDate(), 'dd-MM-yyyy')}"></td>
+                                            <td th:utext="${bill.getPhone()}"></td>
+                                            <td th:utext="${bill.getAddress()}"></td>
+                                            <td>
+
+                                                <a class="btn btn-light" th:text="${bill.getStatus().getName()}"
+                                                   data-toggle="modal" th:data-target="${'#status'+ bill.getId()}"></a>
+                                            </td>
+                                            <td>
+                                                <a data-toggle="modal" th:data-target="${'#detail'+ bill.getId()}">more
+                                                    detail</a>
+                                            </td>
+
+                                        </tr>
+                                        <!--                    start modal detail-->
+                                        <div class="modal fade" th:id="${'detail'+ bill.getId()}" tabindex="-1"
+                                             role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="ad1"></h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div>
+                                                            <p>total:<span style="font-weight:bold; color: red"
+                                                                           th:text="${bill.getTotalMoney()+'$'}"></span>
+                                                            </p>
+                                                        </div>
+                                                        <hr>
+                                                        <li class="list-group-item"
+                                                            th:each="detail: ${bill.getBill_details()}">
+                                                            <div class="row">
+                                                                <div class="col-sm-2">
+                                                                    <img th:src="${'/upload/'+detail.getProduct().getImage()}"
+                                                                         width="60px"
+                                                                         height="60px">
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <p th:text="${detail.getProduct().getProductName()}"></p>
+                                                                    <br>
+                                                                    <p th:text="${'quantity: '+detail.getQuantity()}"></p>
+                                                                </div>
+                                                                <div class="col-sm-2" style="color: red"
+                                                                     th:text="${'$'+(detail.getQuantity()* detail.getPrice())}"></div>
+                                                            </div>
+                                                            <div th:if="${detail.getQuantity() > detail.getProduct().getQuantity()}">
+                                                                This product in stock is not enough:<a
+                                                                    th:href="@{/admin/bill/removeProduct(id=${detail.getId()})}">remove</a>
+                                                            </div>
+
+                                                        </li>
+                                                        <hr>
+                                                        <div th:text="${bill.getDescription()}"></div>
+
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--end modal detail-->
+                                        <div class="modal fade" th:id="${'status'+ bill.getId()}" tabindex="-1"
+                                             role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalCenterTitle1">Update
+                                                            order status</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div th:if="${bill.getStatus().getId() == 5 || bill.getStatus().getId() == 4}"
+                                                         class="modal-body">
+                                                        <p th:if="${bill.getStatus().getId()==5}">This order has been
+                                                            canceled</p>
+                                                        <p th:if="${bill.getStatus().getId()==4}">successful order
+                                                            transaction</p>
+                                                    </div>
+
+                                                    <form th:if="${bill.getStatus().getId() != 5 && bill.getStatus().getId() != 4}"
+                                                          action="/admin/bill/update/status" method="post"
+                                                          id="StatusBill">
+                                                        <div class="modal-body">
+                                                            <div class="form-group">
+                                                                <input name="id" id="id" style="display: none"
+                                                                       type="text" th:value="${bill.getId()}">
+                                                                <select class="form-control" id="status" name="status"
+                                                                        th:switch="${bill.getStatus().getId()}"
+                                                                        onchange="if(this.value ==5){
+                                                        // this.document.getElementsByName('reason').style['display'] = 'inline'
+
+                                                    }else {
+                                                         // this.document.getElementsByName('reason').style['display'] = 'none'
+                                                         }">
+                                                                    <div th:case="1">
+                                                                        <option value="0"></option>
+                                                                        <option value="2">Confirmed</option>
+                                                                        <option value="3">On delivery</option>
+                                                                        <option value="5">Cancel</option>
+                                                                    </div>
+                                                                    <div th:case="2">
+                                                                        <option value="0"></option>
+                                                                        <option value="3">On delivery</option>
+                                                                        <option value="4">Successfully</option>
+                                                                        <option value="5">Cancel</option>
+                                                                    </div>
+                                                                    <div th:case="3">
+                                                                        <option value="0"></option>
+                                                                        <option value="4">Successfully</option>
+                                                                        <option value="6">Delivery failed</option>
+                                                                        <option value="5">Cancel</option>
+                                                                    </div>
+                                                                    <div th:case="6">
+                                                                        <option value="0"></option>
+                                                                        <option value="3">Delivery of goods</option>
+                                                                        <option value="5">Cancel</option>
+                                                                    </div>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="note">Note:</label>
+                                                                <textarea class="form-control" name="note" id="note">
+
+                                                </textarea>
+                                                            </div>
+
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                    data-dismiss="modal">Close
+                                                            </button>
+                                                            <button type="submit" class="btn btn-primary">Save changes
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+<!--                        tab3------------------------------------------------------------------ -->
+                        <div id="delivery" class="container tab-pane fade"><br>
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable2" width="100%" cellspacing="0">
+                                    <thead>
+                                    <tr>
+                                        <th>Bill ID</th>
+                                        <th>Customer's Name</th>
+                                        <th>Order date</th>
+                                        <th>Received date</th>
+
+                                        <th>Consignee's phone</th>
+                                        <th>Address</th>
+                                        <th>Status</th>
+                                        <th></th>
+
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    <div th:each="bill : ${billsOnDelivery}">
+                                        <tr>
+                                            <td th:text="${'BKS000'+bill.getId()}"></td>
+                                            <td th:text="${bill.getCustomer().getCustomerName()}"></td>
+                                            <td th:text="${#calendars.format(bill.getOrderDate(), 'dd-MM-yyyy')}"></td>
+                                            <td th:utext="${#calendars.format(bill.getReceivedDate(), 'dd-MM-yyyy')}"></td>
+                                            <td th:utext="${bill.getPhone()}"></td>
+                                            <td th:utext="${bill.getAddress()}"></td>
+                                            <td>
+
+                                                <a class="btn btn-light" th:text="${bill.getStatus().getName()}"
+                                                   data-toggle="modal" th:data-target="${'#status'+ bill.getId()}"></a>
+                                            </td>
+                                            <td>
+                                                <a data-toggle="modal" th:data-target="${'#detail'+ bill.getId()}">more
+                                                    detail</a>
+                                            </td>
+
+                                        </tr>
+                                        <!--                    start modal detail-->
+                                        <div class="modal fade" th:id="${'detail'+ bill.getId()}" tabindex="-1"
+                                             role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="ad2"></h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div>
+                                                            <p>total:<span style="font-weight:bold; color: red"
+                                                                           th:text="${bill.getTotalMoney()+'$'}"></span>
+                                                            </p>
+                                                        </div>
+                                                        <hr>
+                                                        <li class="list-group-item"
+                                                            th:each="detail: ${bill.getBill_details()}">
+                                                            <div class="row">
+                                                                <div class="col-sm-2">
+                                                                    <img th:src="${'/upload/'+detail.getProduct().getImage()}"
+                                                                         width="60px"
+                                                                         height="60px">
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <p th:text="${detail.getProduct().getProductName()}"></p>
+                                                                    <br>
+                                                                    <p th:text="${'quantity: '+detail.getQuantity()}"></p>
+                                                                </div>
+                                                                <div class="col-sm-2" style="color: red"
+                                                                     th:text="${'$'+(detail.getQuantity()* detail.getPrice())}"></div>
+                                                            </div>
+                                                            <div th:if="${detail.getQuantity() > detail.getProduct().getQuantity()}">
+                                                                This product in stock is not enough:<a
+                                                                    th:href="@{/admin/bill/removeProduct(id=${detail.getId()})}">remove</a>
+                                                            </div>
+
+                                                        </li>
+                                                        <hr>
+                                                        <div th:text="${bill.getDescription()}"></div>
+
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--end modal detail-->
+                                        <div class="modal fade" th:id="${'status'+ bill.getId()}" tabindex="-1"
+                                             role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalCenterTitle2">Update
+                                                            order status</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div th:if="${bill.getStatus().getId() == 5 || bill.getStatus().getId() == 4}"
+                                                         class="modal-body">
+                                                        <p th:if="${bill.getStatus().getId()==5}">This order has been
+                                                            canceled</p>
+                                                        <p th:if="${bill.getStatus().getId()==4}">successful order
+                                                            transaction</p>
+                                                    </div>
+
+                                                    <form th:if="${bill.getStatus().getId() != 5 && bill.getStatus().getId() != 4}"
+                                                          action="/admin/bill/update/status" method="post"
+                                                          id="StatusBill">
+                                                        <div class="modal-body">
+                                                            <div class="form-group">
+                                                                <input name="id" id="id" style="display: none"
+                                                                       type="text" th:value="${bill.getId()}">
+                                                                <select class="form-control" id="status" name="status"
+                                                                        th:switch="${bill.getStatus().getId()}"
+                                                                        onchange="if(this.value ==5){
+                                                        // this.document.getElementsByName('reason').style['display'] = 'inline'
+
+                                                    }else {
+                                                         // this.document.getElementsByName('reason').style['display'] = 'none'
+                                                         }">
+                                                                    <div th:case="1">
+                                                                        <option value="0"></option>
+                                                                        <option value="2">Confirmed</option>
+                                                                        <option value="3">On delivery</option>
+                                                                        <option value="5">Cancel</option>
+                                                                    </div>
+                                                                    <div th:case="2">
+                                                                        <option value="0"></option>
+                                                                        <option value="3">On delivery</option>
+                                                                        <option value="4">Successfully</option>
+                                                                        <option value="5">Cancel</option>
+                                                                    </div>
+                                                                    <div th:case="3">
+                                                                        <option value="0"></option>
+                                                                        <option value="4">Successfully</option>
+                                                                        <option value="6">Delivery failed</option>
+                                                                        <option value="5">Cancel</option>
+                                                                    </div>
+                                                                    <div th:case="6">
+                                                                        <option value="0"></option>
+                                                                        <option value="3">Delivery of goods</option>
+                                                                        <option value="5">Cancel</option>
+                                                                    </div>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="note">Note:</label>
+                                                                <textarea class="form-control" name="note" id="note">
+
+                                                </textarea>
+                                                            </div>
+
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                    data-dismiss="modal">Close
+                                                            </button>
+                                                            <button type="submit" class="btn btn-primary">Save changes
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div id="success" class="container tab-pane fade"><br>
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable3" width="100%" cellspacing="0">
+                                    <thead>
+                                    <tr>
+                                        <th>Bill ID</th>
+                                        <th>Customer's Name</th>
+                                        <th>Order date</th>
+                                        <th>Received date</th>
+
+                                        <th>Consignee's phone</th>
+                                        <th>Address</th>
+                                        <th>Status</th>
+                                        <th></th>
+
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    <div th:each="bill : ${billsSuccess}">
+                                        <tr>
+                                            <td th:text="${'BKS000'+bill.getId()}"></td>
+                                            <td th:text="${bill.getCustomer().getCustomerName()}"></td>
+                                            <td th:text="${#calendars.format(bill.getOrderDate(), 'dd-MM-yyyy')}"></td>
+                                            <td th:utext="${#calendars.format(bill.getReceivedDate(), 'dd-MM-yyyy')}"></td>
+                                            <td th:utext="${bill.getPhone()}"></td>
+                                            <td th:utext="${bill.getAddress()}"></td>
+                                            <td>
+
+                                                <a class="btn btn-light" th:text="${bill.getStatus().getName()}"
+                                                   data-toggle="modal" th:data-target="${'#status'+ bill.getId()}"></a>
+                                            </td>
+                                            <td>
+                                                <a data-toggle="modal" th:data-target="${'#detail'+ bill.getId()}">more
+                                                    detail</a>
+                                            </td>
+
+                                        </tr>
+                                        <!--                    start modal detail-->
+                                        <div class="modal fade" th:id="${'detail'+ bill.getId()}" tabindex="-1"
+                                             role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="ad2"></h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div>
+                                                            <p>total:<span style="font-weight:bold; color: red"
+                                                                           th:text="${bill.getTotalMoney()+'$'}"></span>
+                                                            </p>
+                                                        </div>
+                                                        <hr>
+                                                        <li class="list-group-item"
+                                                            th:each="detail: ${bill.getBill_details()}">
+                                                            <div class="row">
+                                                                <div class="col-sm-2">
+                                                                    <img th:src="${'/upload/'+detail.getProduct().getImage()}"
+                                                                         width="60px"
+                                                                         height="60px">
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <p th:text="${detail.getProduct().getProductName()}"></p>
+                                                                    <br>
+                                                                    <p th:text="${'quantity: '+detail.getQuantity()}"></p>
+                                                                </div>
+                                                                <div class="col-sm-2" style="color: red"
+                                                                     th:text="${'$'+(detail.getQuantity()* detail.getPrice())}"></div>
+                                                            </div>
+                                                            <div th:if="${detail.getQuantity() > detail.getProduct().getQuantity()}">
+                                                                This product in stock is not enough:<a
+                                                                    th:href="@{/admin/bill/removeProduct(id=${detail.getId()})}">remove</a>
+                                                            </div>
+
+                                                        </li>
+                                                        <hr>
+                                                        <div th:text="${bill.getDescription()}"></div>
+
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--end modal detail-->
+                                        <div class="modal fade" th:id="${'status'+ bill.getId()}" tabindex="-1"
+                                             role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalCenterTitle3">Update
+                                                            order status</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div th:if="${bill.getStatus().getId() == 5 || bill.getStatus().getId() == 4}"
+                                                         class="modal-body">
+                                                        <p th:if="${bill.getStatus().getId()==5}">This order has been
+                                                            canceled</p>
+                                                        <p th:if="${bill.getStatus().getId()==4}">successful order
+                                                            transaction</p>
+                                                    </div>
+
+                                                    <form th:if="${bill.getStatus().getId() != 5 && bill.getStatus().getId() != 4}"
+                                                          action="/admin/bill/update/status" method="post"
+                                                          id="StatusBill">
+                                                        <div class="modal-body">
+                                                            <div class="form-group">
+                                                                <input name="id" id="id" style="display: none"
+                                                                       type="text" th:value="${bill.getId()}">
+                                                                <select class="form-control" id="status" name="status"
+                                                                        th:switch="${bill.getStatus().getId()}"
+                                                                        onchange="if(this.value ==5){
+                                                        // this.document.getElementsByName('reason').style['display'] = 'inline'
+
+                                                    }else {
+                                                         // this.document.getElementsByName('reason').style['display'] = 'none'
+                                                         }">
+                                                                    <div th:case="1">
+                                                                        <option value="0"></option>
+                                                                        <option value="2">Confirmed</option>
+                                                                        <option value="3">On delivery</option>
+                                                                        <option value="5">Cancel</option>
+                                                                    </div>
+                                                                    <div th:case="2">
+                                                                        <option value="0"></option>
+                                                                        <option value="3">On delivery</option>
+                                                                        <option value="4">Successfully</option>
+                                                                        <option value="5">Cancel</option>
+                                                                    </div>
+                                                                    <div th:case="3">
+                                                                        <option value="0"></option>
+                                                                        <option value="4">Successfully</option>
+                                                                        <option value="6">Delivery failed</option>
+                                                                        <option value="5">Cancel</option>
+                                                                    </div>
+                                                                    <div th:case="6">
+                                                                        <option value="0"></option>
+                                                                        <option value="3">Delivery of goods</option>
+                                                                        <option value="5">Cancel</option>
+                                                                    </div>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="note">Note:</label>
+                                                                <textarea class="form-control" name="note" id="note">
+
+                                                </textarea>
+                                                            </div>
+
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                    data-dismiss="modal">Close
+                                                            </button>
+                                                            <button type="submit" class="btn btn-primary">Save changes
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div id="cancel" class="container tab-pane fade"><br>
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable4" width="100%" cellspacing="0">
+                                    <thead>
+                                    <tr>
+                                        <th>Bill ID</th>
+                                        <th>Customer's Name</th>
+                                        <th>Order date</th>
+                                        <th>Received date</th>
+
+                                        <th>Consignee's phone</th>
+                                        <th>Address</th>
+                                        <th>Status</th>
+                                        <th></th>
+
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    <div th:each="bill : ${billsCancel}">
+                                        <tr>
+                                            <td th:text="${'BKS000'+bill.getId()}"></td>
+                                            <td th:text="${bill.getCustomer().getCustomerName()}"></td>
+                                            <td th:text="${#calendars.format(bill.getOrderDate(), 'dd-MM-yyyy')}"></td>
+                                            <td th:utext="${#calendars.format(bill.getReceivedDate(), 'dd-MM-yyyy')}"></td>
+                                            <td th:utext="${bill.getPhone()}"></td>
+                                            <td th:utext="${bill.getAddress()}"></td>
+                                            <td>
+
+                                                <a class="btn btn-light" th:text="${bill.getStatus().getName()}"
+                                                   data-toggle="modal" th:data-target="${'#status'+ bill.getId()}"></a>
+                                            </td>
+                                            <td>
+                                                <a data-toggle="modal" th:data-target="${'#detail'+ bill.getId()}">more
+                                                    detail</a>
+                                            </td>
+
+                                        </tr>
+                                        <!--                    start modal detail-->
+                                        <div class="modal fade" th:id="${'detail'+ bill.getId()}" tabindex="-1"
+                                             role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="ad1"></h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div>
+                                                            <p>total:<span style="font-weight:bold; color: red"
+                                                                           th:text="${bill.getTotalMoney()+'$'}"></span>
+                                                            </p>
+                                                        </div>
+                                                        <hr>
+                                                        <li class="list-group-item"
+                                                            th:each="detail: ${bill.getBill_details()}">
+                                                            <div class="row">
+                                                                <div class="col-sm-2">
+                                                                    <img th:src="${'/upload/'+detail.getProduct().getImage()}"
+                                                                         width="60px"
+                                                                         height="60px">
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <p th:text="${detail.getProduct().getProductName()}"></p>
+                                                                    <br>
+                                                                    <p th:text="${'quantity: '+detail.getQuantity()}"></p>
+                                                                </div>
+                                                                <div class="col-sm-2" style="color: red"
+                                                                     th:text="${'$'+(detail.getQuantity()* detail.getPrice())}"></div>
+                                                            </div>
+                                                            <div th:if="${detail.getQuantity() > detail.getProduct().getQuantity()}">
+                                                                This product in stock is not enough:<a
+                                                                    th:href="@{/admin/bill/removeProduct(id=${detail.getId()})}">remove</a>
+                                                            </div>
+
+                                                        </li>
+                                                        <hr>
+                                                        <div th:text="${bill.getDescription()}"></div>
+
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--end modal detail-->
+                                        <div class="modal fade" th:id="${'status'+ bill.getId()}" tabindex="-1"
+                                             role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalCenterTitle4">Update
+                                                            order status</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div th:if="${bill.getStatus().getId() == 5 || bill.getStatus().getId() == 4}"
+                                                         class="modal-body">
+                                                        <p th:if="${bill.getStatus().getId()==5}">This order has been
+                                                            canceled</p>
+                                                        <p th:if="${bill.getStatus().getId()==4}">successful order
+                                                            transaction</p>
+                                                    </div>
+
+                                                    <form th:if="${bill.getStatus().getId() != 5 && bill.getStatus().getId() != 4}"
+                                                          action="/admin/bill/update/status" method="post"
+                                                          id="StatusBill4">
+                                                        <div class="modal-body">
+                                                            <div class="form-group">
+                                                                <input name="id" id="id" style="display: none"
+                                                                       type="text" th:value="${bill.getId()}">
+                                                                <select class="form-control" id="status" name="status"
+                                                                        th:switch="${bill.getStatus().getId()}"
+                                                                        onchange="if(this.value ==5){
+                                                        // this.document.getElementsByName('reason').style['display'] = 'inline'
+
+                                                    }else {
+                                                         // this.document.getElementsByName('reason').style['display'] = 'none'
+                                                         }">
+                                                                    <div th:case="1">
+                                                                        <option value="0"></option>
+                                                                        <option value="2">Confirmed</option>
+                                                                        <option value="3">On delivery</option>
+                                                                        <option value="5">Cancel</option>
+                                                                    </div>
+                                                                    <div th:case="2">
+                                                                        <option value="0"></option>
+                                                                        <option value="3">On delivery</option>
+                                                                        <option value="4">Successfully</option>
+                                                                        <option value="5">Cancel</option>
+                                                                    </div>
+                                                                    <div th:case="3">
+                                                                        <option value="0"></option>
+                                                                        <option value="4">Successfully</option>
+                                                                        <option value="6">Delivery failed</option>
+                                                                        <option value="5">Cancel</option>
+                                                                    </div>
+                                                                    <div th:case="6">
+                                                                        <option value="0"></option>
+                                                                        <option value="3">Delivery of goods</option>
+                                                                        <option value="5">Cancel</option>
+                                                                    </div>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="note">Note:</label>
+                                                                <textarea class="form-control" name="note" id="note">
+
+                                                </textarea>
+                                                            </div>
+
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                    data-dismiss="modal">Close
+                                                            </button>
+                                                            <button type="submit" class="btn btn-primary">Save changes
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div id="fail" class="container tab-pane fade"><br>
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable5" width="100%" cellspacing="0">
+                                    <thead>
+                                    <tr>
+                                        <th>Bill ID</th>
+                                        <th>Customer's Name</th>
+                                        <th>Order date</th>
+                                        <th>Received date</th>
+
+                                        <th>Consignee's phone</th>
+                                        <th>Address</th>
+                                        <th>Status</th>
+                                        <th></th>
+
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    <div th:each="bill : ${billsDeliveryFail}">
+                                        <tr>
+                                            <td th:text="${'BKS000'+bill.getId()}"></td>
+                                            <td th:text="${bill.getCustomer().getCustomerName()}"></td>
+                                            <td th:text="${#calendars.format(bill.getOrderDate(), 'dd-MM-yyyy')}"></td>
+                                            <td th:utext="${#calendars.format(bill.getReceivedDate(), 'dd-MM-yyyy')}"></td>
+                                            <td th:utext="${bill.getPhone()}"></td>
+                                            <td th:utext="${bill.getAddress()}"></td>
+                                            <td>
+
+                                                <a class="btn btn-light" th:text="${bill.getStatus().getName()}"
+                                                   data-toggle="modal" th:data-target="${'#status'+ bill.getId()}"></a>
+                                            </td>
+                                            <td>
+                                                <a data-toggle="modal" th:data-target="${'#detail'+ bill.getId()}">more
+                                                    detail</a>
+                                            </td>
+
+                                        </tr>
+                                        <!--                    start modal detail-->
+                                        <div class="modal fade" th:id="${'detail'+ bill.getId()}" tabindex="-1"
+                                             role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="ad1"></h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div>
+                                                            <p>total:<span style="font-weight:bold; color: red"
+                                                                           th:text="${bill.getTotalMoney()+'$'}"></span>
+                                                            </p>
+                                                        </div>
+                                                        <hr>
+                                                        <li class="list-group-item"
+                                                            th:each="detail: ${bill.getBill_details()}">
+                                                            <div class="row">
+                                                                <div class="col-sm-2">
+                                                                    <img th:src="${'/upload/'+detail.getProduct().getImage()}"
+                                                                         width="60px"
+                                                                         height="60px">
+                                                                </div>
+                                                                <div class="col-sm-8">
+                                                                    <p th:text="${detail.getProduct().getProductName()}"></p>
+                                                                    <br>
+                                                                    <p th:text="${'quantity: '+detail.getQuantity()}"></p>
+                                                                </div>
+                                                                <div class="col-sm-2" style="color: red"
+                                                                     th:text="${'$'+(detail.getQuantity()* detail.getPrice())}"></div>
+                                                            </div>
+                                                            <div th:if="${detail.getQuantity() > detail.getProduct().getQuantity()}">
+                                                                This product in stock is not enough:<a
+                                                                    th:href="@{/admin/bill/removeProduct(id=${detail.getId()})}">remove</a>
+                                                            </div>
+
+                                                        </li>
+                                                        <hr>
+                                                        <div th:if="${bill.getDescription().length() != null}" th:text="${bill.getDescription()}"></div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--end modal detail-->
+                                        <div class="modal fade" th:id="${'status'+ bill.getId()}" tabindex="-1"
+                                             role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalCenterTitle5">Update
+                                                            order status</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div th:if="${bill.getStatus().getId() == 5 || bill.getStatus().getId() == 4}"
+                                                         class="modal-body">
+                                                        <p th:if="${bill.getStatus().getId()==5}">This order has been
+                                                            canceled</p>
+                                                        <p th:if="${bill.getStatus().getId()==4}">successful order
+                                                            transaction</p>
+                                                    </div>
+
+                                                    <form th:if="${bill.getStatus().getId() != 5 && bill.getStatus().getId() != 4}"
+                                                          action="/admin/bill/update/status" method="post"
+                                                          id="StatusBill">
+                                                        <div class="modal-body">
+                                                            <div class="form-group">
+                                                                <input name="id" id="id" style="display: none"
+                                                                       type="text" th:value="${bill.getId()}">
+                                                                <select class="form-control" id="status" name="status"
+                                                                        th:switch="${bill.getStatus().getId()}"
+                                                                        onchange="if(this.value ==5){
+                                                        // this.document.getElementsByName('reason').style['display'] = 'inline'
+
+                                                    }else {
+                                                         // this.document.getElementsByName('reason').style['display'] = 'none'
+                                                         }">
+                                                                    <div th:case="1">
+                                                                        <option value="0"></option>
+                                                                        <option value="2">Confirmed</option>
+                                                                        <option value="3">On delivery</option>
+                                                                        <option value="5">Cancel</option>
+                                                                    </div>
+                                                                    <div th:case="2">
+                                                                        <option value="0"></option>
+                                                                        <option value="3">On delivery</option>
+                                                                        <option value="4">Successfully</option>
+                                                                        <option value="5">Cancel</option>
+                                                                    </div>
+                                                                    <div th:case="3">
+                                                                        <option value="0"></option>
+                                                                        <option value="4">Successfully</option>
+                                                                        <option value="6">Delivery failed</option>
+                                                                        <option value="5">Cancel</option>
+                                                                    </div>
+                                                                    <div th:case="6">
+                                                                        <option value="0"></option>
+                                                                        <option value="3">Delivery of goods</option>
+                                                                        <option value="5">Cancel</option>
+                                                                    </div>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="note">Note:</label>
+                                                                <textarea class="form-control" name="note" id="note">
+                                                </textarea>
+                                                            </div>
+
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                    data-dismiss="modal">Close
+                                                            </button>
+                                                            <button type="submit" class="btn btn-primary">Save changes
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
 
-                        </tbody>
-                    </table>
+
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>

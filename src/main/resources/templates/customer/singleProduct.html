@@ -82,7 +82,7 @@
                     </form>
                     <div class="card_area d-flex align-items-center">
                         <button th:if="${product.getQuantity() > 0}" style="border: none" class="primary-btn" type="submit" form="addToCartForm">Add to Cart</button>
-                        <button th:if="${product.getQuantity() <= 0}" style="border: none" class="primary-btn" type="button" >Sold out</button>
+                        <button th:if="${product.getQuantity() <= 0}" style="border: none" class="btn btn-light" type="button" >Sold out</button>
                         <a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a>
                         <a class="icon_btn" href="#"><i class="lnr lnr lnr-heart"></i></a>
                     </div>

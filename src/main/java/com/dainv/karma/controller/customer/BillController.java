@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -81,6 +82,7 @@ public class BillController {
             return "redirect:/login";
         }
         List<Bill> bills = billService.findByCustomer(customerId);
+        bills.sort(Comparator.comparing(Bill :: getOrderDate).reversed());
         model.addAttribute("message", message);
         model.addAttribute("bills", bills);
         return "customer/purchase";

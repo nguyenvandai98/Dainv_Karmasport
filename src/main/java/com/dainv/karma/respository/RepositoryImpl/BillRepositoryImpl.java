@@ -20,8 +20,7 @@ public class BillRepositoryImpl implements BillRepository {
     @Autowired
     private EntityManager entityManager;
 
-    @Autowired
-    private ProductService productService;
+
 
     @Autowired
     private CartService cartService;
@@ -63,6 +62,14 @@ public class BillRepositoryImpl implements BillRepository {
     }
 
     @Override
+    public List<Bill> findByStatus(int statusId) {
+        String query = "select c from Bill c where c.status.id = :statusId  ";
+        TypedQuery<Bill> customerTypedQuery = entityManager.createQuery(query, Bill.class);
+        customerTypedQuery.setParameter("statusId",statusId);
+        return customerTypedQuery.getResultList();
+    }
+
+    @Override
     public void saveBillAndBillDetail(Bill bill, List<Cart> carts) {
         entityManager.persist(bill);
         for (Cart cart : carts){
@@ -74,7 +81,6 @@ public class BillRepositoryImpl implements BillRepository {
             bill_detail.setPrice(cart.getProduct().getPrice());
 
             entityManager.persist(bill_detail);
-
             cartService.remove(cart.getId());
         }
     }
