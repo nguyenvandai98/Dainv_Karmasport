@@ -11,6 +11,6 @@ public class BillDetailServiceImpl implements BillDetailService {
     private BilDetailRepository bilDetailRepository;
     @Override
     public void deleteById(Long id) {
-        bilDetailRepository.remove(id);
+        bilDetailRepository.deleteById(id);
     }
 }

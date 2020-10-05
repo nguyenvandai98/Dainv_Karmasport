@@ -19,7 +19,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer findById(Long id) {
-        return customerRepository.findById(id);
+        return customerRepository.findById(id).get();
     }
 
     @Override
@@ -29,17 +29,17 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void remove(Long id) {
-        customerRepository.remove(id);
+        customerRepository.deleteById(id);
     }
 
     @Override
     public Customer finByEmail(String email) {
-        return customerRepository.findbyEmail(email);
+        return customerRepository.findCustomerByEmail(email);
     }
 
     @Override
     public boolean checkLogin(String email, String password) {
-        Customer customer = customerRepository.findbyEmail(email);
+        Customer customer = customerRepository.findCustomerByEmail(email);
         if (customer != null) {
             if (password.equals(customer.getPassword()) && customer.isStatus()) {
                 return true;

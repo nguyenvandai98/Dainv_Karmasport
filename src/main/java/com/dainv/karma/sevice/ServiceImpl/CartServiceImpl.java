@@ -19,7 +19,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public Cart findById(Long id) {
-        return cartRepository.findById(id);
+        return cartRepository.findById(id).get();
     }
 
     @Override
@@ -29,11 +29,11 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void remove(Long id) {
-        cartRepository.remove(id);
+        cartRepository.deleteById(id);
     }
 
     @Override
     public List<Cart> findByCustomerId(Long id) {
-        return cartRepository.findByCustomerId(id);
+        return cartRepository.findCartsByCustomer_CustomerId(id);
     }
 }
