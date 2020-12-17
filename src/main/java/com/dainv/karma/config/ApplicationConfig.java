@@ -8,10 +8,4 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 @Configuration
 public class ApplicationConfig {
 
-//    @Bean
-//    public SpringTemplateEngine springTemplateEngine(){
-//        SpringTemplateEngine springTemplateEngine = new SpringTemplateEngine();
-//        springTemplateEngine.addDialect(new LayoutDialect());
-//        return springTemplateEngine;
-//    }
 }
