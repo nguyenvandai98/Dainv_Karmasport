@@ -101,5 +101,4 @@ public class AdminManagentController {
         model.addAttribute("admins", adminService.findALlByRole(0));
         return "admin/adminManagement/list";
     }
-
 }
